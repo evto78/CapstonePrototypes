@@ -421,9 +421,9 @@ Transform:
   m_GameObject: {fileID: 108865241}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.4001062, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.9699998, y: 1.1499999, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 834900238}
   m_Father: {fileID: 882091239}
@@ -454,7 +454,7 @@ Transform:
   m_GameObject: {fileID: 129931096}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.5, y: -2.48, z: 0.036899365}
+  m_LocalPosition: {x: 6.72, y: -3.32, z: 0.036899365}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -474,6 +474,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46a85ff889e0e240a9121e6e3550551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mySprite: {fileID: 505328208}
+  sprites:
+  - {fileID: 109362428, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
+  - {fileID: -1849807730, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
   timeline: {fileID: 238459325}
   player: {fileID: 1084430487}
   attackCircle: {fileID: 618403523}
@@ -627,7 +631,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6719225c822bf1e4ab955ba4dba17aab, type: 3}
+  m_Sprite: {fileID: 109362428, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -685,10 +689,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   marker: {fileID: 664751741}
   minMax: {x: -375, y: 375}
-  combatTime: 10
+  combatTime: 25
   combatSpeed: 2
   fillBar: {fileID: 92586226}
-  speedUp: 0
+  speedUp: 1
   speedUpAmt: 2
   speedUpTime: 0.5
 --- !u!1 &256516428
@@ -5782,9 +5786,9 @@ Transform:
   m_GameObject: {fileID: 367582819}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.4001062, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.97, y: 1.15, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 323885362}
   m_Father: {fileID: 129931097}
@@ -6005,7 +6009,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6719225c822bf1e4ab955ba4dba17aab, type: 3}
+  m_Sprite: {fileID: 109362428, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11295,11 +11299,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46a85ff889e0e240a9121e6e3550551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mySprite: {fileID: 170106823}
+  sprites:
+  - {fileID: 109362428, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
+  - {fileID: -1849807730, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
   timeline: {fileID: 238459325}
   player: {fileID: 1084430487}
   attackCircle: {fileID: 151407524}
   dmg: 2
-  atkSpd: 0.32
+  atkSpd: 0.1
 --- !u!4 &882091239
 Transform:
   m_ObjectHideFlags: 0
@@ -11309,9 +11317,9 @@ Transform:
   m_GameObject: {fileID: 882091237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.68, y: -1.45, z: 0.020592}
-  m_LocalScale: {x: 0.55806, y: 0.55806, z: 0.55806}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 3.9, y: -2.29, z: 0.020592}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 170106822}
   - {fileID: 108865242}
@@ -16448,7 +16456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1249665175
 RectTransform:
   m_ObjectHideFlags: 0
