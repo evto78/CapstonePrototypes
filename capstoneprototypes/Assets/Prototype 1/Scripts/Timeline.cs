@@ -12,6 +12,8 @@ public class Timeline : MonoBehaviour
     public float combatSpeed;
     float combatTimeLeft;
     public Image fillBar;
+    public Transform thresholdBar;
+
     public bool speedUp;
     public float speedUpAmt;
     public float speedUpTime;
@@ -30,21 +32,26 @@ public class Timeline : MonoBehaviour
     private void Update()
     {
         combatTimeLeft -= Time.deltaTime * combatSpeed;
-        fillBar.fillAmount = 1 - (combatTimeLeft / combatTime);
-        if (fillBar.fillAmount > speedUpTime && !speedUp)
-        {
-            speedUp = true;
-            combatSpeed *= speedUpAmt;
-        }
+
+        UpdateVisual();
     }
-    public void AddMarkers(float atkSpd)
+    void UpdateVisual()
+    {
+        float trueFillAmt = 1 - (combatTimeLeft / combatTime);
+        float timelineRes = 160;
+        fillBar.fillAmount = Mathf.Round(trueFillAmt * timelineRes) / timelineRes;
+        thresholdBar.transform.localPosition = new Vector3(Mathf.Lerp(minMax.x, minMax.y, fillBar.fillAmount), 0, 0);
+        thresholdBar.gameObject.SetActive(thresholdBar.transform.localPosition.x > minMax.x + 3);
+    }
+    public void AddMarkers(float atkInterval)
     {
         float tempCounter = 0f;
-        float interval = 1f / atkSpd;
+
+        if (atkInterval <= 0) {Debug.Log("Interval is less than 0!!"); return; }
 
         while(tempCounter <= combatTime)
         {
-            tempCounter += interval;
+            tempCounter += atkInterval;
             if (tempCounter <= combatTime)
             {
                 Transform newMarker = Instantiate(marker, transform.GetChild(0).transform).transform;

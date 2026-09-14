@@ -11,22 +11,26 @@ public class Monster : MonoBehaviour
     public PlayerManager player;
     public Image attackCircle;
     public float dmg;
-    public float atkSpd;
+    public float atkInterval;
+    float intervalCounter;
     float atkCooldown = 0;
 
     private void Start()
     {
-        timeline.AddMarkers(atkSpd);
+        timeline.AddMarkers(atkInterval);
         mySprite.sprite = sprites[0];
+        intervalCounter = 0;
     }
     void Update()
     {
-        if (atkCooldown >= 1)
+        intervalCounter += Time.deltaTime * timeline.combatSpeed;
+
+        if (intervalCounter >= atkInterval)
         {
             mySprite.sprite = sprites[1];
             Attack();
         }
-        else if (atkCooldown < 0.1f)
+        else if (intervalCounter < atkInterval / 10f)
         {
             //mySprite.sprite = sprites[1];
         }
@@ -35,13 +39,11 @@ public class Monster : MonoBehaviour
             mySprite.sprite = sprites[0];
         }
         
-        attackCircle.fillAmount = atkCooldown;
-
-        atkCooldown += Time.deltaTime * atkSpd * timeline.combatSpeed;
+        attackCircle.fillAmount = intervalCounter/atkInterval;
     }
     void Attack()
     {
         player.MonsterAttacked(dmg);
-        atkCooldown = 0f;
+        intervalCounter = 0f;
     }
 }

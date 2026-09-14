@@ -85,7 +85,7 @@ public class PlayerManager : MonoBehaviour
             hp -= dmg;
         }
 
-        if (hp <= 0) { Destroy(gameObject); }
+        if (hp <= 0) { gameObject.SetActive(false); }
     }
     void ParryLanded()
     {
