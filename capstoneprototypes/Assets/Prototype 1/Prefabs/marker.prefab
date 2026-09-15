@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7754005665647009317}
   - component: {fileID: 525817652045837919}
+  - component: {fileID: 1362381657878366843}
   m_Layer: 5
   m_Name: marker
   m_TagString: Untagged
@@ -47,6 +48,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986754050012339677}
   m_CullTransparentMesh: 1
+--- !u!114 &1362381657878366843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986754050012339677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acfe93afbed1a65499f4706e131ade6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  sr: {fileID: 6016725984415624637}
+  markerSprites:
+  - {fileID: 21300000, guid: 46f6e593dcecf4344845d252624efa37, type: 3}
+  - {fileID: 21300000, guid: ffc7e140cb014384ba637898f76ded9c, type: 3}
+  - {fileID: 21300000, guid: 9804fd4035c1a5a48b276045fc023ac4, type: 3}
+  - {fileID: 21300000, guid: d43865481ad1b5447ad408d198bdf3e8, type: 3}
 --- !u!1 &2771604132737764313
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1180785295137648293
 RectTransform:
   m_ObjectHideFlags: 0
@@ -168,8 +188,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.5, y: 2}
-  m_SizeDelta: {x: 0, y: -1}
+  m_AnchoredPosition: {x: -0.5, y: 1.5}
+  m_SizeDelta: {x: -0.000000059604645, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &899770042406804970
 SpriteRenderer:
@@ -256,8 +276,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.5, y: 2}
-  m_SizeDelta: {x: 0, y: -1}
+  m_AnchoredPosition: {x: 0, y: 2}
+  m_SizeDelta: {x: -1, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &6016725984415624637
 SpriteRenderer:

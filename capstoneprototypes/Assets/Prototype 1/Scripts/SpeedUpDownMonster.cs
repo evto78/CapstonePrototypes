@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Monster : MonoBehaviour
+public class SpeedUpDownMonster : MonoBehaviour
 {
     public SpriteRenderer mySprite;
     public List<Sprite> sprites;
@@ -16,7 +16,7 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
-        timeline.AddEnemyAtkMarkers(atkInterval, MarkerObject.markerType.EnemyAtk);
+        timeline.AddEnemyAtkMarkers(atkInterval, MarkerObject.markerType.SpeedUp);
         mySprite.sprite = sprites[0];
         intervalCounter = 0;
     }
@@ -37,12 +37,13 @@ public class Monster : MonoBehaviour
         {
             mySprite.sprite = sprites[0];
         }
-        
-        attackCircle.fillAmount = intervalCounter/atkInterval;
+
+        attackCircle.fillAmount = intervalCounter / atkInterval;
     }
     void Attack()
     {
         player.MonsterAttacked(dmg);
         intervalCounter = 0f;
+        timeline.combatSpeed += 0.5f;
     }
 }
