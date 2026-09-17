@@ -18,7 +18,7 @@ public class RoomSelection : MonoBehaviour
     void Start()
     {
         distance = 0;
-        if (paths.Count < 1) { GeneratePaths(); }
+        if (paths.Count < 3) { GeneratePaths(); }
 
         DisplayPaths();
     }
@@ -50,6 +50,16 @@ public class RoomSelection : MonoBehaviour
         if (IsTouchingMouse(optionSprites[2].gameObject))
         { optionSprites[2].sprite = selectedThoughtBubbleSprite; optionSprites[2].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = selectedRoomIcons[Mathf.Abs(Mathf.RoundToInt(paths[distance].z))]; }
         else { optionSprites[2].sprite = thoughtBubbleSprite; optionSprites[2].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = roomIcons[Mathf.Abs(Mathf.RoundToInt(paths[distance].z))]; }
+
+        //NEXT display
+        if (paths[distance + 1].x < 0) { timeIcons[3].sprite = moonIcon; } else { timeIcons[3].sprite = sunIcon; }
+        if (paths[distance + 1].y < 0) { timeIcons[4].sprite = moonIcon; } else { timeIcons[4].sprite = sunIcon; }
+        if (paths[distance + 1].z < 0) { timeIcons[5].sprite = moonIcon; } else { timeIcons[5].sprite = sunIcon; }
+
+        
+        optionSprites[3].sprite = thoughtBubbleSprite; optionSprites[3].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = roomIcons[Mathf.Abs(Mathf.RoundToInt(paths[distance + 1].x))];
+        optionSprites[4].sprite = thoughtBubbleSprite; optionSprites[4].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = roomIcons[Mathf.Abs(Mathf.RoundToInt(paths[distance + 1].y))];
+        optionSprites[5].sprite = thoughtBubbleSprite; optionSprites[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = roomIcons[Mathf.Abs(Mathf.RoundToInt(paths[distance + 1].z))];
     }
     public bool IsTouchingMouse(GameObject g)
     {
@@ -73,7 +83,7 @@ public class RoomSelection : MonoBehaviour
 
         distance++;
 
-        if (distance >= paths.Count)
+        if (distance >= paths.Count-1)
         {
             GeneratePaths();
         }
