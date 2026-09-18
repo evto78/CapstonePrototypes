@@ -19,6 +19,13 @@ public class PlayerManager : MonoBehaviour
     bool parryLanded;
     bool blockActive;
 
+    public float perfectWindow;
+    public float perfectCooldown;
+    float curPerfectCooldown = 0;
+    bool perfectActive;
+    bool perfectLanded;
+    bool attackActive;
+
     public bool combatActive;
 
     private void Start()
@@ -35,8 +42,16 @@ public class PlayerManager : MonoBehaviour
             curParryCooldown -= Time.deltaTime;
         }
 
+        if (curPerfectCooldown > 0)
+        {
+            if (curPerfectCooldown < perfectCooldown - perfectWindow) { perfectActive = false; perfectLanded = false; }
+
+            curPerfectCooldown -= Time.deltaTime;
+        }
+
         if (combatActive)
         {
+            //Parry
             if (Input.GetMouseButtonDown(1))
             {
                 if (curParryCooldown <= 0 || parryLanded)
@@ -46,6 +61,17 @@ public class PlayerManager : MonoBehaviour
                 }
             }
             else if (Input.GetMouseButtonUp(1)) { blockActive = false; }
+
+            //Attack
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (curPerfectCooldown <= 0 || perfectLanded)
+                {
+                    curPerfectCooldown = perfectCooldown;
+                    perfectActive = true; attackActive = true;
+                }
+            }
+            else if (Input.GetMouseButtonUp(0)) { attackActive = false; }
         }
 
         UpdateVisuals();
@@ -92,5 +118,22 @@ public class PlayerManager : MonoBehaviour
         foreach(ParticleSystem ps in parryParticles) {ps.Stop(); ps.Play(); }
         parryLanded = true;
         UpdateVisuals();
+    }
+
+    //Needs to be called when the chosen attack is planned to land !!!NOT HOOKED UP TO ANYTHING YET!!!
+    public void AboutToAttack()
+    {
+        if (perfectActive)
+        {
+            //made a perfect attack
+        }
+        else if (attackActive)
+        {
+            //made a ok attack
+        }
+        else
+        {
+            //missed the attack window, made a bad attack
+        }
     }
 }
