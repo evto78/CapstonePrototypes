@@ -80,6 +80,7 @@ public class TimelineManager : MonoBehaviour
         combatActive = true;
         timePassed = 0;
         prevEventIndex = -1;
+        combatSpeed = 1;
     }
     public void EndCombat()
     {
@@ -87,6 +88,7 @@ public class TimelineManager : MonoBehaviour
         timePassed = 0;
         roundNumber = 0;
         prevEventIndex = -1;
+        combatSpeed = 0;
     }
     void UpdateCombat()
     {
@@ -105,6 +107,8 @@ public class TimelineManager : MonoBehaviour
         UpdateVisuals();
         timePassed += Time.deltaTime * combatSpeed;
         prevEventIndex = eventIndex;
+
+        if (eventIndex > 160) { EndCombat(); }
     }
     public void AddMarker(int index, EventType eventType, bool deleteOnActivate)
     {

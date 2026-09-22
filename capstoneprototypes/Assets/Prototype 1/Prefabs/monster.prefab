@@ -82,11 +82,10 @@ MonoBehaviour:
   sprites:
   - {fileID: 109362428, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
   - {fileID: -1849807730, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
-  timeline: {fileID: 0}
   player: {fileID: 0}
   attackCircle: {fileID: 7715435569857874182}
   dmg: 1
-  atkInterval: 1.3
+  atkInterval: 2
 --- !u!1 &3265564915103193244
 GameObject:
   m_ObjectHideFlags: 0

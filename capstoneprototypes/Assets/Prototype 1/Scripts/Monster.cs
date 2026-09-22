@@ -7,7 +7,7 @@ public class Monster : MonoBehaviour
 {
     public SpriteRenderer mySprite;
     public List<Sprite> sprites;
-    public TimelineManager timeline;
+    TimelineManager timeline;
     public PlayerManager player;
     public Image attackCircle;
     public float dmg;
