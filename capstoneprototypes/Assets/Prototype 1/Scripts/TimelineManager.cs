@@ -32,7 +32,7 @@ public class TimelineManager : MonoBehaviour
     private void Start()
     {
         combatActive = false;
-        //markerPrefab.SetActive(false);
+        markerPrefab.SetActive(false);
 
         StartCombat();
     }
