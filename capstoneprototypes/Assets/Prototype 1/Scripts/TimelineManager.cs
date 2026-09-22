@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -54,6 +55,8 @@ public class TimelineManager : MonoBehaviour
         {
             fillBar.fillAmount = timePassed / combatTime;
         }
+
+        thresholdBar.transform.localPosition = new Vector3(Mathf.Lerp(minMaxPos.x, minMaxPos.y, fillBar.fillAmount), 0, 0);
     }
     public void AddEnemyAtkMarkers(float atkInterval, EventType type)
     {
