@@ -16,6 +16,7 @@ public class SpeedUpDownMonster : MonoBehaviour
 
     void Start()
     {
+        timeline = GameObject.Find("Timeline").GetComponent<TimelineManager>();
         timeline.AddEnemyAtkMarkers(atkInterval, TimelineManager.EventType.SpeedUp);
         mySprite.sprite = sprites[0];
         intervalCounter = 0;
