@@ -7,7 +7,7 @@ public class SpeedUpDownMonster : MonoBehaviour
 {
     public SpriteRenderer mySprite;
     public List<Sprite> sprites;
-    public Timeline timeline;
+    public TimelineManager timeline;
     public PlayerManager player;
     public Image attackCircle;
     public float dmg;
@@ -16,7 +16,7 @@ public class SpeedUpDownMonster : MonoBehaviour
 
     void Start()
     {
-        timeline.AddEnemyAtkMarkers(atkInterval, MarkerObject.markerType.SpeedUp);
+        timeline.AddEnemyAtkMarkers(atkInterval, TimelineManager.EventType.SpeedUp);
         mySprite.sprite = sprites[0];
         intervalCounter = 0;
     }

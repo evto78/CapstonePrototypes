@@ -7,7 +7,7 @@ public class Monster : MonoBehaviour
 {
     public SpriteRenderer mySprite;
     public List<Sprite> sprites;
-    public Timeline timeline;
+    public TimelineManager timeline;
     public PlayerManager player;
     public Image attackCircle;
     public float dmg;
@@ -16,7 +16,8 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
-        timeline.AddEnemyAtkMarkers(atkInterval, MarkerObject.markerType.EnemyAtk);
+        timeline = GameObject.Find("Timeline").GetComponent<TimelineManager>();
+        timeline.AddEnemyAtkMarkers(atkInterval, TimelineManager.EventType.EnemyAtk);
         mySprite.sprite = sprites[0];
         intervalCounter = 0;
     }
