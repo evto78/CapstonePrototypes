@@ -387,6 +387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 238459324}
   - component: {fileID: 238459325}
+  - component: {fileID: 238459326}
   m_Layer: 0
   m_Name: Timeline
   m_TagString: Untagged
@@ -424,14 +425,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerPrefab: {fileID: 664751741}
   minMax: {x: -80, y: 80}
-  combatTime: 12
+  combatTime: 6
   combatSpeed: 1
   fillBar: {fileID: 92586226}
   thresholdBar: {fileID: 1190927822}
   speedUp: 1
   speedUpAmt: 2
   speedUpTime: 0.5
-  movePixelByPixel: 0
+  movePixelByPixel: 1
+--- !u!114 &238459326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238459323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38dc32fd9af40cc4e85d854c91d416b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventList: []
+  combatTime: 6
+  timePassed: 0
+  eventIndex: 0
+  roundNumber: 0
+  combatSpeed: 1
+  combatActive: 0
+  fillBar: {fileID: 92586226}
+  markerPrefab: {fileID: 0}
+  minMaxPos: {x: 0, y: 0}
+  thresholdBar: {fileID: 0}
+  fillPixelByPixel: 0
 --- !u!1 &373613942
 GameObject:
   m_ObjectHideFlags: 0
@@ -2571,7 +2596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &7339489170648623143
 MonoBehaviour:
   m_ObjectHideFlags: 0

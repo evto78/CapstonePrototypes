@@ -49,11 +49,11 @@ public class Timeline : MonoBehaviour
         if (movePixelByPixel)
         {
             float timelineRes = 160;
-            fillBar.fillAmount = Mathf.Round(trueFillAmt * timelineRes) / timelineRes;
+            //fillBar.fillAmount = Mathf.Round(trueFillAmt * timelineRes) / timelineRes;
         }
         else
         {
-            fillBar.fillAmount = trueFillAmt;
+            //fillBar.fillAmount = trueFillAmt;
         }
 
         foreach (Transform activeMark in activeMarkers)
@@ -62,8 +62,8 @@ public class Timeline : MonoBehaviour
             if (mark.timePos <= trueFillAmt) { mark.gameObject.SetActive(false); }
         }
 
-        thresholdBar.transform.localPosition = new Vector3(Mathf.Lerp(minMax.x, minMax.y, fillBar.fillAmount), 0, 0);
-        thresholdBar.gameObject.SetActive(thresholdBar.transform.localPosition.x > minMax.x + 3);
+        //thresholdBar.transform.localPosition = new Vector3(Mathf.Lerp(minMax.x, minMax.y, fillBar.fillAmount), 0, 0);
+        //thresholdBar.gameObject.SetActive(thresholdBar.transform.localPosition.x > minMax.x + 3);
     }
     int enemyID = 0;
     public void AddEnemyAtkMarkers(float atkInterval, MarkerObject.markerType type)
