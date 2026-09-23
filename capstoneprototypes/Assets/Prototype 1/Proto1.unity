@@ -2389,7 +2389,7 @@ PrefabInstance:
       objectReference: {fileID: 1084430487}
     - target: {fileID: 2627869429044565343, guid: 3a69146743ec96346bdeb3841e554ce9, type: 3}
       propertyPath: atkInterval
-      value: 1.1
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 2742526880035886883, guid: 3a69146743ec96346bdeb3841e554ce9, type: 3}
       propertyPath: m_LocalPosition.x
