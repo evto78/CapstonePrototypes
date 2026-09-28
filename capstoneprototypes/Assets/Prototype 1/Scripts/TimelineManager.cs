@@ -11,9 +11,8 @@ public class TimelineManager : MonoBehaviour
     {
         public EventType eventType;
         public int timelineIndex;
-        public bool deleteOnActivate;
-        public bool eventRun = false;
         public RectTransform markerTrans;
+        public bool removed = false;
 
         public Enemy enemyOwner;
         public Enemy.Action enemyAction;
@@ -33,9 +32,15 @@ public class TimelineManager : MonoBehaviour
     [Header("Visuals")]
     public Image fillBar;
     public GameObject markerPrefab;
+    PlayerManager player;
     public Vector2 minMaxPos;
     public Transform thresholdBar;
     public bool fillPixelByPixel;
+
+    private void Awake()
+    {
+        player = GameObject.Find("Player").GetComponent<PlayerManager>();
+    }
 
     private void Start()
     {
@@ -74,7 +79,7 @@ public class TimelineManager : MonoBehaviour
             tempCounter += atkInterval;
             if (tempCounter <= combatTime)
             {
-                AddMarker(Mathf.FloorToInt((tempCounter / combatTime) * resolution), type, false, null, null);
+                AddMarker(Mathf.FloorToInt((tempCounter / combatTime) * resolution), type, null, null);
             }
         }
     }
@@ -87,6 +92,19 @@ public class TimelineManager : MonoBehaviour
         prevEventIndex = -1;
         combatSpeed = 1;
         foreach(Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
+    }
+    void EndRound()
+    {
+        combatActive = false;
+        timePassed = 0;
+        prevEventIndex = -1;
+        combatSpeed = 1;
+
+        PrepareNextRound();
+    }
+    void PrepareNextRound()
+    {
+
     }
     public void EndCombat()
     {
@@ -106,7 +124,7 @@ public class TimelineManager : MonoBehaviour
         {
             foreach (TimelineEvent e in eventList)
             {
-                if (!e.eventRun && (e.timelineIndex == eventIndex || (e.timelineIndex < eventIndex && e.timelineIndex > eventIndex-(catchUp+1)))) { RunEvent(e); }
+                if (!e.removed && (e.timelineIndex == eventIndex || (e.timelineIndex < eventIndex && e.timelineIndex > eventIndex-(catchUp+1)))) { RunEvent(e); }
             }
         }
 
@@ -117,14 +135,13 @@ public class TimelineManager : MonoBehaviour
         timePassed += Time.deltaTime * combatSpeed;
         prevEventIndex = eventIndex;
 
-        if (eventIndex > resolution) { EndCombat(); }
+        if (eventIndex > resolution) { EndRound(); }
     }
-    public void AddMarker(int index, EventType eventType, bool deleteOnActivate, Enemy enemyOwner, Enemy.Action enemyAction)
+    public void AddMarker(int index, EventType eventType, Enemy enemyOwner, Enemy.Action enemyAction)
     {
         TimelineEvent newEvent = new TimelineEvent();
         newEvent.eventType = eventType;
         newEvent.timelineIndex = index;
-        newEvent.deleteOnActivate = deleteOnActivate;
 
         RectTransform newMarker = Instantiate(markerPrefab, transform.GetChild(0)).GetComponent<RectTransform>();
         MarkerObject markObj = newMarker.GetComponent<MarkerObject>();
@@ -138,24 +155,32 @@ public class TimelineManager : MonoBehaviour
     }
     void RunEvent(TimelineEvent tEvent)
     {
-        tEvent.eventRun = true;
-
-        if (tEvent.enemyOwner != null && tEvent.enemyAction != null)
-        {
-            tEvent.enemyOwner.ActivateAction(tEvent.enemyAction);
-        }
-
         switch (tEvent.eventType)
         {
-            case EventType.EnemyAtk: break;
+            case EventType.EnemyAtk: tEvent.enemyOwner.Attack(tEvent.enemyAction.damage); break;
             case EventType.PlayerAtk: break;
-            case EventType.SpeedUp: break;
-            case EventType.SpeedDown: break;
+            case EventType.SpeedUp: combatSpeed += tEvent.enemyAction.damage; break;
+            case EventType.SpeedDown: combatSpeed -= tEvent.enemyAction.damage; break;
             case EventType.Delay: break;
             case EventType.ReverseStart: break;
             case EventType.ReverseEnd: break;
             case EventType.PortalStart: break;
             case EventType.PortalEnd: break;
         }
+    }
+    public void EnemyDied(Enemy enemy)
+    {
+        foreach (TimelineEvent tEvent in eventList)
+        {
+            if (tEvent.enemyOwner == enemy) { RemoveEventAndMarker(tEvent); }
+        }
+    }
+    void RemoveEventAndMarker(TimelineEvent tEvent)
+    {
+        //Doesn't REMOVE the event and marker so that everything can run smoothly.
+        //Instead, disable that event, and hide the markers for it.
+        //It will be cleaned up when the round ends anyways.
+        tEvent.removed = true;
+        tEvent.markerTrans.gameObject.SetActive(false);
     }
 }

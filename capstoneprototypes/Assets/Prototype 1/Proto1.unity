@@ -2426,6 +2426,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8799480677778714446, guid: 3a69146743ec96346bdeb3841e554ce9, type: 3}
+      propertyPath: hp
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799480677778714446, guid: 3a69146743ec96346bdeb3841e554ce9, type: 3}
+      propertyPath: mhp
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799480677778714446, guid: 3a69146743ec96346bdeb3841e554ce9, type: 3}
+      propertyPath: attackPatterns.Array.data[0].actionSequence.Array.data[0].actionType
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

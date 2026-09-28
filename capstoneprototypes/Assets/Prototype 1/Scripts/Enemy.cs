@@ -10,8 +10,7 @@ public class Enemy : MonoBehaviour
     [System.Serializable]
     public class Action
     {
-        public enum ActionType { Attack, Delay, SpeedUp, SpeedDown}
-        public ActionType actionType;
+        public TimelineManager.EventType actionType;
         public float damage; //If the action is an attack, how much damage should it do? If the action is speed up / down, how much should the combat time change by?
 
         //Try to make the delay in 160ths. As a tip, 0.05 is 8/160, and so 0.025 is 4/160. Not strictly needed, but helps make timing make more sense!
@@ -36,6 +35,10 @@ public class Enemy : MonoBehaviour
     public SpriteRenderer sr;
     public Image attackCircle;
     int activeSprite;
+
+    [Header("Stats")]
+    public int mhp;
+    public int hp;
 
     [Header("Functional")]
     TimelineManager timeline;
@@ -64,6 +67,7 @@ public class Enemy : MonoBehaviour
     {
         if (timeline != null && timeline.activeEnemies.Contains(this))
         {
+            timeline.EnemyDied(this); 
             timeline.activeEnemies.Remove(this);
         }
     }
@@ -72,6 +76,7 @@ public class Enemy : MonoBehaviour
     {
         if (timeline != null && timeline.activeEnemies.Contains(this))
         {
+            timeline.EnemyDied(this);
             timeline.activeEnemies.Remove(this);
         }
     }
@@ -90,12 +95,7 @@ public class Enemy : MonoBehaviour
                 accumulatedDelay += action.delayBeforeAction;
                 if (accumulatedDelay > timeline.combatTime) { break; }
                 int indexOfDelay = Mathf.FloorToInt((accumulatedDelay / timeline.combatTime) * timeline.resolution);
-                switch (action.actionType)
-                {
-                    case Action.ActionType.Attack: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.EnemyAtk, false, this, action); break;
-                    case Action.ActionType.SpeedUp: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedUp, true, this, action); break;
-                    case Action.ActionType.SpeedDown: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedDown, true, this, action); break;
-                }
+                timeline.AddMarker(indexOfDelay, action.actionType, this, action);
                 accumulatedDelay += action.delayAfterAction;
             }
         }
@@ -187,13 +187,8 @@ public class Enemy : MonoBehaviour
         sr.sprite = spriteList[activeSprite];
     }
 
-    public void ActivateAction(Action action)
+    public void Attack(float damage)
     {
-        switch (action.actionType)
-        {
-            case Action.ActionType.Attack: player.MonsterAttacked(action.damage); break;
-            case Action.ActionType.SpeedUp: timeline.combatSpeed += action.damage; break;
-            case Action.ActionType.SpeedDown: timeline.combatSpeed -= action.damage; break;
-        }
+        player.MonsterAttacked(damage);
     }
 }
