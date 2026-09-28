@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ public class Enemy : MonoBehaviour
     [System.Serializable]
     public class Action
     {
-        public enum ActionType { Attack, Delay, SpeedUp, SlowDown}
+        public enum ActionType { Attack, Delay, SpeedUp, SpeedDown}
         public ActionType actionType;
         public float damage; //If the action is an attack, how much damage should it do? If the action is speed up / down, how much should the combat time change by?
 
@@ -79,17 +80,21 @@ public class Enemy : MonoBehaviour
         foreach (AttackPattern pattern in attackPatterns)
         {
             float accumulatedDelay = 0;
-            foreach (Action action in pattern.actionSequence)
+            while (accumulatedDelay <= timeline.combatTime)
             {
-                accumulatedDelay += action.delayBeforeAction;
-                int indexOfDelay = Mathf.FloorToInt((accumulatedDelay / timeline.combatTime) * timeline.resolution);
-                switch (action.actionType)
+                foreach (Action action in pattern.actionSequence)
                 {
-                    case Action.ActionType.Attack: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.EnemyAtk, false); break;
-                    case Action.ActionType.SpeedUp: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedUp, true); break;
-                    case Action.ActionType.SlowDown: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedDown, true); break;
+                    accumulatedDelay += action.delayBeforeAction;
+                    if (accumulatedDelay > timeline.combatTime) { break; }
+                    int indexOfDelay = Mathf.FloorToInt((accumulatedDelay / timeline.combatTime) * timeline.resolution);
+                    switch (action.actionType)
+                    {
+                        case Action.ActionType.Attack: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.EnemyAtk, false); break;
+                        case Action.ActionType.SpeedUp: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedUp, true); break;
+                        case Action.ActionType.SpeedDown: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedDown, true); break;
+                    }
+                    accumulatedDelay += action.delayAfterAction;
                 }
-                accumulatedDelay += action.delayAfterAction;
             }
         }
     }
@@ -113,16 +118,24 @@ public class Enemy : MonoBehaviour
         AttackPattern curPattern = attackPatterns[patternByRound[relitiveRound]];
 
         float accumulatedDelay = 0;
-        foreach (Action action in curPattern.actionSequence)
+        bool actionFound = false;
+        int loopLimit = 1000;
+        while (!actionFound)
         {
-            if (curTimePassed > accumulatedDelay && curTimePassed < accumulatedDelay + action.delayBeforeAction + action.delayAfterAction)
+            foreach (Action action in curPattern.actionSequence)
             {
-                RunCurAction(action, curTimePassed - accumulatedDelay, timeline.prevTimePassed - accumulatedDelay); break;
+                if (curTimePassed >= accumulatedDelay && curTimePassed < accumulatedDelay + action.delayBeforeAction + action.delayAfterAction)
+                {
+                    actionFound = true;
+                    RunCurAction(action, curTimePassed - accumulatedDelay, timeline.prevTimePassed - accumulatedDelay); break;
+                }
+                else
+                {
+                    accumulatedDelay += action.delayBeforeAction + action.delayAfterAction;
+                }
             }
-            else
-            {
-                accumulatedDelay += action.delayBeforeAction + action.delayAfterAction;
-            }
+            loopLimit--;
+            if (loopLimit < 1) { Debug.LogError("ENEMY: " + gameObject.name + ", NO ACTION COULD BE FOUND!"); break; }
         }
     }
 
@@ -135,17 +148,21 @@ public class Enemy : MonoBehaviour
             {
                 activeSprite = 1; //prepare for attack
             }
+            if (action.playAnim)
+            {
+                attackCircle.fillAmount = relitiveTime / action.delayBeforeAction;
+            }
         }
         else if (prevRelitiveTime < action.delayBeforeAction)
         {
             //action!
-            if (action.playAnim) { activeSprite = 2; }
-            Debug.Log("ACTION!");
-            Debug.Log("Enemy: " + gameObject.name);
-            Debug.Log("CurTime: " + curTimePassed);
-            Debug.Log("CurIndex: " + curTimelineIndex);
-            Debug.Log("CurRound: " + curRound);
-            Debug.Log("ActionType: " + action.actionType);
+            if (action.playAnim) 
+            { 
+                activeSprite = 2; 
+                attackCircle.fillAmount = 1; 
+            }
+
+            ActivateAction(action);
         }
         else
         {
@@ -153,6 +170,12 @@ public class Enemy : MonoBehaviour
             if (relitiveTime < action.delayBeforeAction + action.animWinddownEnd && action.playAnim)
             {
                 activeSprite = 2; //attack anim
+                attackCircle.fillAmount = 1;
+            }
+            else if (action.playAnim)
+            {
+                activeSprite = 0; //idle anim
+                attackCircle.fillAmount = 0;
             }
         }
     }
@@ -160,5 +183,15 @@ public class Enemy : MonoBehaviour
     void UpdateVisuals()
     {
         sr.sprite = spriteList[activeSprite];
+    }
+
+    void ActivateAction(Action action)
+    {
+        switch (action.actionType)
+        {
+            case Action.ActionType.Attack: player.MonsterAttacked(action.damage); break;
+            case Action.ActionType.SpeedUp: timeline.combatSpeed += action.damage; break;
+            case Action.ActionType.SpeedDown: timeline.combatSpeed -= action.damage; break;
+        }
     }
 }
