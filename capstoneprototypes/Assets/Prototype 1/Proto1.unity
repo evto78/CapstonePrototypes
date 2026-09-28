@@ -2401,6 +2401,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8799480677778714446, guid: 3a69146743ec96346bdeb3841e554ce9, type: 3}
+      propertyPath: attackPatterns.Array.data[0].timelineChangePriority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799480677778714446, guid: 3a69146743ec96346bdeb3841e554ce9, type: 3}
       propertyPath: attackPatterns.Array.data[0].timelineCombatTimePref
       value: 6
       objectReference: {fileID: 0}

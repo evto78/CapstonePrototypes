@@ -77,25 +77,28 @@ public class TimelineManager : MonoBehaviour
         if (combatActive) { return; }
         combatActive = true;
         roundNumber = 0;
+
+        eventList = new List<TimelineEvent>();
+        timePassed = 0;
+        prevEventIndex = -1;
+
+        PrepareNextRound();
+        foreach (Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
     }
     public void StartRound()
     {
         if (!combatPause) { return; }
         if (!combatActive) { return; }
-        eventList = new List<TimelineEvent>();
         combatPause = false;
-        timePassed = 0;
-        prevEventIndex = -1;
-        combatSpeed = 1;
-        foreach (Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
     }
     void EndRound()
     {
         combatPause = true;
         timePassed = 0;
         prevEventIndex = -1;
-        combatSpeed = 1;
         roundNumber++;
+
+        eventList = new List<TimelineEvent>();
 
         //Check if all enemies are dead. If they are, then end the combat.
         bool combatOver = true;
@@ -106,6 +109,7 @@ public class TimelineManager : MonoBehaviour
         if (combatOver) { EndCombat(); return; }
 
         PrepareNextRound();
+        foreach (Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
     }
     void PrepareNextRound()
     {
@@ -157,7 +161,7 @@ public class TimelineManager : MonoBehaviour
         {
             foreach (TimelineEvent e in eventList)
             {
-                if (!e.removed && (e.timelineIndex == eventIndex || (e.timelineIndex < eventIndex && e.timelineIndex > eventIndex-(catchUp+1)))) { RunEvent(e); }
+                if (!e.removed && (e.timelineIndex == eventIndex || (e.timelineIndex < eventIndex && e.timelineIndex > eventIndex-catchUp))) { RunEvent(e); }
             }
         }
 
@@ -175,6 +179,8 @@ public class TimelineManager : MonoBehaviour
         TimelineEvent newEvent = new TimelineEvent();
         newEvent.eventType = eventType;
         newEvent.timelineIndex = index;
+        newEvent.enemyOwner = enemyOwner;
+        newEvent.enemyAction = enemyAction;
 
         RectTransform newMarker = Instantiate(markerPrefab, transform.GetChild(0)).GetComponent<RectTransform>();
         MarkerObject markObj = newMarker.GetComponent<MarkerObject>();
