@@ -20,17 +20,25 @@ public class TimelineManager : MonoBehaviour
     public List<TimelineEvent> eventList;
     public float combatTime;
     public float timePassed;
+    public float prevTimePassed;
     int prevEventIndex;
     public int eventIndex;
     public int roundNumber;
     public float combatSpeed;
     public bool combatActive;
+    public float resolution;
+    public List<Enemy> activeEnemies;
     [Header("Visuals")]
     public Image fillBar;
     public GameObject markerPrefab;
     public Vector2 minMaxPos;
     public Transform thresholdBar;
     public bool fillPixelByPixel;
+
+    private void Awake()
+    {
+        activeEnemies = new List<Enemy>();
+    }
 
     private void Start()
     {
@@ -48,7 +56,7 @@ public class TimelineManager : MonoBehaviour
     {
         if (fillPixelByPixel)
         {
-            fillBar.fillAmount = eventIndex / 160f;
+            fillBar.fillAmount = eventIndex / resolution;
         }
         else
         {
@@ -68,7 +76,7 @@ public class TimelineManager : MonoBehaviour
             tempCounter += atkInterval;
             if (tempCounter <= combatTime)
             {
-                AddMarker(Mathf.FloorToInt((tempCounter / combatTime)*160f), type, false);
+                AddMarker(Mathf.FloorToInt((tempCounter / combatTime) * resolution), type, false);
             }
         }
     }
@@ -91,7 +99,7 @@ public class TimelineManager : MonoBehaviour
     }
     void UpdateCombat()
     {
-        eventIndex = Mathf.FloorToInt((timePassed / combatTime) * 160);
+        eventIndex = Mathf.FloorToInt((timePassed / combatTime) * resolution);
 
         //Don't run the same event index multiple times but run all events that still need to be run
         int catchUp = eventIndex - prevEventIndex;
@@ -103,11 +111,14 @@ public class TimelineManager : MonoBehaviour
             }
         }
 
+        foreach (Enemy enemy in activeEnemies) { enemy.TimelineUpdate(); }
+
         UpdateVisuals();
+        prevTimePassed = timePassed;
         timePassed += Time.deltaTime * combatSpeed;
         prevEventIndex = eventIndex;
 
-        if (eventIndex > 160) { EndCombat(); }
+        if (eventIndex > resolution) { EndCombat(); }
     }
     public void AddMarker(int index, EventType eventType, bool deleteOnActivate)
     {
@@ -119,7 +130,7 @@ public class TimelineManager : MonoBehaviour
         RectTransform newMarker = Instantiate(markerPrefab, transform.GetChild(0)).GetComponent<RectTransform>();
         MarkerObject markObj = newMarker.GetComponent<MarkerObject>();
         markObj.SetType(eventType);
-        newMarker.transform.localPosition = new Vector3(Mathf.Lerp(minMaxPos.x, minMaxPos.y, index/160f), 0, 0);
+        newMarker.transform.localPosition = new Vector3(Mathf.Lerp(minMaxPos.x, minMaxPos.y, index / resolution), 0, 0);
         newMarker.gameObject.SetActive(true);
 
         newEvent.markerTrans = newMarker;
