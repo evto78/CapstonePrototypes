@@ -14,8 +14,10 @@ public class TimelineManager : MonoBehaviour
         public bool deleteOnActivate;
         public bool eventRun = false;
         public RectTransform markerTrans;
+
+        public Enemy enemyOwner;
+        public Enemy.Action enemyAction;
     }
-    [System.Serializable]
     public enum EventType { EnemyAtk, PlayerAtk, SpeedUp, SpeedDown, Delay, ReverseStart, ReverseEnd, PortalStart, PortalEnd}
     public List<TimelineEvent> eventList;
     public float combatTime;
@@ -34,11 +36,6 @@ public class TimelineManager : MonoBehaviour
     public Vector2 minMaxPos;
     public Transform thresholdBar;
     public bool fillPixelByPixel;
-
-    private void Awake()
-    {
-        activeEnemies = new List<Enemy>();
-    }
 
     private void Start()
     {
@@ -65,6 +62,7 @@ public class TimelineManager : MonoBehaviour
 
         thresholdBar.transform.localPosition = new Vector3(Mathf.Lerp(minMaxPos.x, minMaxPos.y, fillBar.fillAmount), 0, 0);
     }
+    //SHOULD BE OBSOLETE! \/ \/ \/
     public void AddEnemyAtkMarkers(float atkInterval, EventType type)
     {
         float tempCounter = 0f;
@@ -76,7 +74,7 @@ public class TimelineManager : MonoBehaviour
             tempCounter += atkInterval;
             if (tempCounter <= combatTime)
             {
-                AddMarker(Mathf.FloorToInt((tempCounter / combatTime) * resolution), type, false);
+                AddMarker(Mathf.FloorToInt((tempCounter / combatTime) * resolution), type, false, null, null);
             }
         }
     }
@@ -88,6 +86,7 @@ public class TimelineManager : MonoBehaviour
         timePassed = 0;
         prevEventIndex = -1;
         combatSpeed = 1;
+        foreach(Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
     }
     public void EndCombat()
     {
@@ -120,7 +119,7 @@ public class TimelineManager : MonoBehaviour
 
         if (eventIndex > resolution) { EndCombat(); }
     }
-    public void AddMarker(int index, EventType eventType, bool deleteOnActivate)
+    public void AddMarker(int index, EventType eventType, bool deleteOnActivate, Enemy enemyOwner, Enemy.Action enemyAction)
     {
         TimelineEvent newEvent = new TimelineEvent();
         newEvent.eventType = eventType;
@@ -140,6 +139,12 @@ public class TimelineManager : MonoBehaviour
     void RunEvent(TimelineEvent tEvent)
     {
         tEvent.eventRun = true;
+
+        if (tEvent.enemyOwner != null && tEvent.enemyAction != null)
+        {
+            tEvent.enemyOwner.ActivateAction(tEvent.enemyAction);
+        }
+
         switch (tEvent.eventType)
         {
             case EventType.EnemyAtk: break;

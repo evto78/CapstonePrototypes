@@ -46,17 +46,18 @@ public class Enemy : MonoBehaviour
     int curRound;
     public List<int> patternByRound;
 
-    void Start()
+    private void Awake()
     {
         timeline = GameObject.Find("Timeline").GetComponent<TimelineManager>();
         player = GameObject.Find("Player").GetComponent<PlayerManager>();
 
         timeline.activeEnemies.Add(this);
+    }
+
+    void Start()
+    {
         curTimePassed = 0;
-
         activeSprite = 0;
-
-        SetupMarkers();
     }
 
     private void OnDisable()
@@ -75,26 +76,27 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void SetupMarkers()
+    public void SetupMarkers()
     {
-        foreach (AttackPattern pattern in attackPatterns)
+        int relitiveRound = curRound % patternByRound.Count;
+
+        AttackPattern curPattern = attackPatterns[patternByRound[relitiveRound]];
+
+        float accumulatedDelay = 0;
+        while (accumulatedDelay <= timeline.combatTime)
         {
-            float accumulatedDelay = 0;
-            while (accumulatedDelay <= timeline.combatTime)
+            foreach (Action action in curPattern.actionSequence)
             {
-                foreach (Action action in pattern.actionSequence)
+                accumulatedDelay += action.delayBeforeAction;
+                if (accumulatedDelay > timeline.combatTime) { break; }
+                int indexOfDelay = Mathf.FloorToInt((accumulatedDelay / timeline.combatTime) * timeline.resolution);
+                switch (action.actionType)
                 {
-                    accumulatedDelay += action.delayBeforeAction;
-                    if (accumulatedDelay > timeline.combatTime) { break; }
-                    int indexOfDelay = Mathf.FloorToInt((accumulatedDelay / timeline.combatTime) * timeline.resolution);
-                    switch (action.actionType)
-                    {
-                        case Action.ActionType.Attack: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.EnemyAtk, false); break;
-                        case Action.ActionType.SpeedUp: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedUp, true); break;
-                        case Action.ActionType.SpeedDown: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedDown, true); break;
-                    }
-                    accumulatedDelay += action.delayAfterAction;
+                    case Action.ActionType.Attack: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.EnemyAtk, false, this, action); break;
+                    case Action.ActionType.SpeedUp: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedUp, true, this, action); break;
+                    case Action.ActionType.SpeedDown: timeline.AddMarker(indexOfDelay, TimelineManager.EventType.SpeedDown, true, this, action); break;
                 }
+                accumulatedDelay += action.delayAfterAction;
             }
         }
     }
@@ -162,7 +164,7 @@ public class Enemy : MonoBehaviour
                 attackCircle.fillAmount = 1; 
             }
 
-            ActivateAction(action);
+            //ActivateAction(action);
         }
         else
         {
@@ -185,7 +187,7 @@ public class Enemy : MonoBehaviour
         sr.sprite = spriteList[activeSprite];
     }
 
-    void ActivateAction(Action action)
+    public void ActivateAction(Action action)
     {
         switch (action.actionType)
         {

@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2742526880035886883}
-  - component: {fileID: 2627869429044565343}
+  - component: {fileID: 8799480677778714446}
   m_Layer: 0
   m_Name: monster
   m_TagString: Untagged
@@ -66,7 +66,7 @@ Transform:
   - {fileID: 632976598671714424}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2627869429044565343
+--- !u!114 &8799480677778714446
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,17 +75,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 2573266613902475739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b46a85ff889e0e240a9121e6e3550551, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e9fa8221803bfd45adc5729f77eb9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mySprite: {fileID: 5527803406950479304}
-  sprites:
-  - {fileID: 109362428, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
-  - {fileID: -1849807730, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
-  player: {fileID: 0}
+  spriteList:
+  - {fileID: -440818168, guid: f65028d8e7db6cb43baba9f25593a23e, type: 3}
+  - {fileID: -1646363796, guid: f65028d8e7db6cb43baba9f25593a23e, type: 3}
+  - {fileID: 1988324856, guid: f65028d8e7db6cb43baba9f25593a23e, type: 3}
+  - {fileID: 1239828162, guid: f65028d8e7db6cb43baba9f25593a23e, type: 3}
+  sr: {fileID: 5527803406950479304}
   attackCircle: {fileID: 7715435569857874182}
-  dmg: 1
-  atkInterval: 2
+  attackPatterns:
+  - actionSequence:
+    - actionType: 1
+      damage: 0
+      delayBeforeAction: 0.5
+      delayAfterAction: 0
+      playAnim: 0
+      animWindupStart: 0
+      animWinddownEnd: 0
+    - actionType: 0
+      damage: 1
+      delayBeforeAction: 0.5
+      delayAfterAction: 0.5
+      playAnim: 1
+      animWindupStart: 0.25
+      animWinddownEnd: 0.25
+    - actionType: 0
+      damage: 1
+      delayBeforeAction: 0.5
+      delayAfterAction: 0.5
+      playAnim: 1
+      animWindupStart: 0.25
+      animWinddownEnd: 0.25
+    - actionType: 0
+      damage: 1
+      delayBeforeAction: 0.5
+      delayAfterAction: 0.5
+      playAnim: 1
+      animWindupStart: 0.25
+      animWinddownEnd: 0.25
+  patternByRound: 00000000
 --- !u!1 &3265564915103193244
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +320,7 @@ Transform:
   m_GameObject: {fileID: 5138674818666671235}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05, y: 0.05, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -337,7 +367,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 109362428, guid: 512dd59be1f36834287717ce3b06680f, type: 3}
+  m_Sprite: {fileID: -440818168, guid: f65028d8e7db6cb43baba9f25593a23e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
