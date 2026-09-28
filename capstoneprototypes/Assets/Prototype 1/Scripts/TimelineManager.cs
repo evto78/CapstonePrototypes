@@ -17,7 +17,7 @@ public class TimelineManager : MonoBehaviour
         public Enemy enemyOwner;
         public Enemy.Action enemyAction;
     }
-    public enum EventType { EnemyAtk, PlayerAtk, SpeedUp, SpeedDown, Delay, ReverseStart, ReverseEnd, PortalStart, PortalEnd}
+    public enum EventType { EnemyAtk, PlayerAtk, SpeedUp, SpeedDown, None, ReverseStart, ReverseEnd, PortalStart, PortalEnd}
     public List<TimelineEvent> eventList;
     public float combatTime;
     public float timePassed;
@@ -26,10 +26,12 @@ public class TimelineManager : MonoBehaviour
     public int eventIndex;
     public int roundNumber;
     public float combatSpeed;
-    public bool combatActive;
+    public bool combatActive; //is there currently a combat happening
+    public bool combatPause; //is the real-time paused or active
     public float resolution;
     public List<Enemy> activeEnemies;
     [Header("Visuals")]
+    public GameObject spotlight;
     public Image fillBar;
     public GameObject markerPrefab;
     PlayerManager player;
@@ -45,17 +47,20 @@ public class TimelineManager : MonoBehaviour
     private void Start()
     {
         combatActive = false;
+        combatPause = true;
         markerPrefab.SetActive(false);
 
         StartCombat();
     }
     private void Update()
     {
-        if (combatActive) { UpdateCombat(); }
+        if (combatActive && !combatPause) { UpdateCombat(); }
         else { UpdateVisuals(); }
     }
     void UpdateVisuals()
     {
+        if (combatActive) { spotlight.SetActive(combatPause); } else { spotlight.SetActive(false); }
+
         if (fillPixelByPixel)
         {
             fillBar.fillAmount = eventIndex / resolution;
@@ -67,48 +72,76 @@ public class TimelineManager : MonoBehaviour
 
         thresholdBar.transform.localPosition = new Vector3(Mathf.Lerp(minMaxPos.x, minMaxPos.y, fillBar.fillAmount), 0, 0);
     }
-    //SHOULD BE OBSOLETE! \/ \/ \/
-    public void AddEnemyAtkMarkers(float atkInterval, EventType type)
-    {
-        float tempCounter = 0f;
-
-        if (atkInterval <= 0) { Debug.Log("Interval is less than 0!!"); return; }
-
-        while (tempCounter <= combatTime)
-        {
-            tempCounter += atkInterval;
-            if (tempCounter <= combatTime)
-            {
-                AddMarker(Mathf.FloorToInt((tempCounter / combatTime) * resolution), type, null, null);
-            }
-        }
-    }
     public void StartCombat()
     {
-        if (combatActive) { roundNumber++; } else { roundNumber = 0; }
-        eventList = new List<TimelineEvent>();
+        if (combatActive) { return; }
         combatActive = true;
+        roundNumber = 0;
+    }
+    public void StartRound()
+    {
+        if (!combatPause) { return; }
+        if (!combatActive) { return; }
+        eventList = new List<TimelineEvent>();
+        combatPause = false;
         timePassed = 0;
         prevEventIndex = -1;
         combatSpeed = 1;
-        foreach(Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
+        foreach (Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
     }
     void EndRound()
     {
-        combatActive = false;
+        combatPause = true;
         timePassed = 0;
         prevEventIndex = -1;
         combatSpeed = 1;
+        roundNumber++;
+
+        //Check if all enemies are dead. If they are, then end the combat.
+        bool combatOver = true;
+        foreach (Enemy e in activeEnemies)
+        {
+            if (e.hp > 0) { combatOver = false; break; }
+        }
+        if (combatOver) { EndCombat(); return; }
 
         PrepareNextRound();
     }
     void PrepareNextRound()
     {
+        int highestPriority = -1;
+        Enemy.AttackPattern priorityEnemyPattern = null;
+        foreach (Enemy enemy in activeEnemies)
+        {
+            if (enemy.hp > 0)
+            {
+                Enemy.AttackPattern tempPattern = new Enemy.AttackPattern();
+                tempPattern = enemy.GetPatternFromRound(roundNumber);
 
+                if (tempPattern.timelineChangePriority > highestPriority) 
+                { 
+                    highestPriority = tempPattern.timelineChangePriority;
+                    priorityEnemyPattern = tempPattern;
+                }
+
+                enemy.PrepareForNextRound();
+            }
+        }
+        if (priorityEnemyPattern != null)
+        {
+            combatTime = priorityEnemyPattern.timelineCombatTimePref;
+            combatSpeed = priorityEnemyPattern.timelineCombatSpeedPref;
+        }
+        else
+        {
+            combatTime = 6f;
+            combatSpeed = 1f;
+        }
     }
     public void EndCombat()
     {
         combatActive = false;
+        combatPause = true;
         timePassed = 0;
         roundNumber = 0;
         prevEventIndex = -1;
@@ -161,7 +194,7 @@ public class TimelineManager : MonoBehaviour
             case EventType.PlayerAtk: break;
             case EventType.SpeedUp: combatSpeed += tEvent.enemyAction.damage; break;
             case EventType.SpeedDown: combatSpeed -= tEvent.enemyAction.damage; break;
-            case EventType.Delay: break;
+            case EventType.None: break;
             case EventType.ReverseStart: break;
             case EventType.ReverseEnd: break;
             case EventType.PortalStart: break;

@@ -17,7 +17,6 @@ public class Monster : MonoBehaviour
     void Start()
     {
         timeline = GameObject.Find("Timeline").GetComponent<TimelineManager>();
-        timeline.AddEnemyAtkMarkers(atkInterval, TimelineManager.EventType.EnemyAtk);
         mySprite.sprite = sprites[0];
         intervalCounter = 0;
     }

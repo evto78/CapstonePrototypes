@@ -27,6 +27,9 @@ public class Enemy : MonoBehaviour
     [System.Serializable]
     public class AttackPattern
     {
+        public int timelineChangePriority; //This pattern prioritizes its changes to the timeline above all other changes with less priority. Try to never match priority, unless it is the same changes.
+        public float timelineCombatTimePref; //What combat time does this pattern prefer?
+        public float timelineCombatSpeedPref; //What combat speed does this pattern prefer?
         public List<Action> actionSequence = new List<Action>();
     }
 
@@ -83,9 +86,7 @@ public class Enemy : MonoBehaviour
 
     public void SetupMarkers()
     {
-        int relitiveRound = curRound % patternByRound.Count;
-
-        AttackPattern curPattern = attackPatterns[patternByRound[relitiveRound]];
+        AttackPattern curPattern = GetPatternFromRound(curRound);
 
         float accumulatedDelay = 0;
         while (accumulatedDelay <= timeline.combatTime)
@@ -100,7 +101,14 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+    public AttackPattern GetPatternFromRound(int round)
+    {
+        int relitiveRound = round % patternByRound.Count;
 
+        AttackPattern curPattern = attackPatterns[patternByRound[relitiveRound]];
+
+        return curPattern;
+    }
     //Update as normal, but sent from the timeline. This is to make sure that timing is accurate.
     public void TimelineUpdate()
     {
@@ -115,9 +123,7 @@ public class Enemy : MonoBehaviour
 
     void FindCurState()
     {
-        int relitiveRound = curRound % patternByRound.Count;
-
-        AttackPattern curPattern = attackPatterns[patternByRound[relitiveRound]];
+        AttackPattern curPattern = GetPatternFromRound(curRound);
 
         float accumulatedDelay = 0;
         bool actionFound = false;
@@ -190,5 +196,12 @@ public class Enemy : MonoBehaviour
     public void Attack(float damage)
     {
         player.MonsterAttacked(damage);
+    }
+
+    public void PrepareForNextRound()
+    {
+        activeSprite = 0;
+        attackCircle.fillAmount = 0;
+        UpdateVisuals();
     }
 }
