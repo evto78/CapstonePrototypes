@@ -17,8 +17,9 @@ public class TimelineManager : MonoBehaviour
         public Enemy enemyOwner;
         public Enemy.Action enemyAction;
     }
-    public enum EventType { EnemyAtk, PlayerAtk, SpeedUp, SpeedDown, None, ReverseStart, ReverseEnd, PortalStart, PortalEnd}
-    public List<TimelineEvent> eventList;
+    public enum EventType { EnemyAtk, PlayerAtk, SpeedUp, SpeedDown, None, ReverseStart, ReverseEnd, PortalStart, PortalEnd }
+
+    [Header("Timekeeping")]
     public float combatTime;
     public float timePassed;
     public float prevTimePassed;
@@ -28,17 +29,23 @@ public class TimelineManager : MonoBehaviour
     public float combatSpeed;
     public bool combatActive; //is there currently a combat happening
     public bool combatPause; //is the real-time paused or active
-    public float resolution;
-    public List<Enemy> activeEnemies;
+
     [Header("Visuals")]
+    public Vector2 minMaxPos;
+    public bool fillPixelByPixel;
+    public float resolution;
+
+    [Header("Functional")]
+    public List<TimelineEvent> eventList;
+    public List<Enemy> activeEnemies;
+
+    [Header("References")]
     public CameraGlide camGlide;
     public GameObject spotlight;
     public Image fillBar;
     public GameObject markerPrefab;
     PlayerManager player;
-    public Vector2 minMaxPos;
     public Transform thresholdBar;
-    public bool fillPixelByPixel;
 
     private void Awake()
     {
@@ -231,5 +238,17 @@ public class TimelineManager : MonoBehaviour
         //It will be cleaned up when the round ends anyways.
         tEvent.removed = true;
         tEvent.markerTrans.gameObject.SetActive(false);
+    }
+    public float TimeFromIndex(int index)
+    {
+        float result = 0;
+        result = (index / resolution) * combatTime;
+        return result;
+    }
+    public int IndexFromTime(float time)
+    {
+        int result = 0;
+        result = Mathf.FloorToInt((time / combatTime) * resolution);
+        return result;
     }
 }
