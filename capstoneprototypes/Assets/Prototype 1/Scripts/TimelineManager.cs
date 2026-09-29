@@ -31,6 +31,7 @@ public class TimelineManager : MonoBehaviour
     public float resolution;
     public List<Enemy> activeEnemies;
     [Header("Visuals")]
+    public CameraGlide camGlide;
     public GameObject spotlight;
     public Image fillBar;
     public GameObject markerPrefab;
@@ -76,6 +77,7 @@ public class TimelineManager : MonoBehaviour
     {
         if (combatActive) { return; }
         combatActive = true;
+        combatPause = true;
         roundNumber = 0;
 
         eventList = new List<TimelineEvent>();
@@ -84,12 +86,16 @@ public class TimelineManager : MonoBehaviour
 
         PrepareNextRound();
         foreach (Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
+
+        camGlide.isUp = false;
     }
     public void StartRound()
     {
         if (!combatPause) { return; }
         if (!combatActive) { return; }
         combatPause = false;
+
+        camGlide.isUp = true;
     }
     void EndRound()
     {
@@ -110,6 +116,8 @@ public class TimelineManager : MonoBehaviour
 
         PrepareNextRound();
         foreach (Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
+
+        camGlide.isUp = false;
     }
     void PrepareNextRound()
     {
@@ -150,6 +158,8 @@ public class TimelineManager : MonoBehaviour
         roundNumber = 0;
         prevEventIndex = -1;
         combatSpeed = 0;
+
+        camGlide.isUp = true;
     }
     void UpdateCombat()
     {
