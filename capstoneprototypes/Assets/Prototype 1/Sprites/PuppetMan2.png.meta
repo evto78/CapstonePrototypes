@@ -105,14 +105,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00e364339920f4d489e0586239396e75
-      internalID: -1664824790
+      spriteID: 996457759927a5143b3ad0c7e0bf5ee9
+      internalID: 1594208413
       vertices: []
       indices: 
       edges: []
@@ -126,20 +126,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 133c40a7ba3f3f94aaee8efbfba4ba6a
-      internalID: -127120165
+      spriteID: 3469ce5a4753329449dbc02f23ed8898
+      internalID: 1439330741
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PuppetMan_Parry
+      name: PuppetMan_ParryActive
       rect:
         serializedVersion: 2
         x: 64
@@ -147,14 +147,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18e3fd7b781cd2246980ae9d767058e1
-      internalID: -1259248157
+      spriteID: a0546b8952f5d084fa6f58d7b94e8939
+      internalID: 804011487
       vertices: []
       indices: 
       edges: []
@@ -168,14 +168,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f75d06c03aab304a933b564d7448829
-      internalID: -1009003973
+      spriteID: 641185ed373b07e4db351915cebabfad
+      internalID: -410772104
       vertices: []
       indices: 
       edges: []
@@ -189,14 +189,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f06fe06049ffb14e8a22235014851cc
-      internalID: -2026889234
+      spriteID: 4c7677894e23dcc42814d2754b7ab46f
+      internalID: -1371161698
       vertices: []
       indices: 
       edges: []
@@ -212,11 +212,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PuppetMan_Attack: -2026889234
-      PuppetMan_Block: -127120165
-      PuppetMan_Idle: -1664824790
-      PuppetMan_Parry: -1259248157
-      PuppetMan_ParryLanded: -1009003973
+      PuppetMan_Attack: -1371161698
+      PuppetMan_Block: 1439330741
+      PuppetMan_Idle: 1594208413
+      PuppetMan_ParryActive: 804011487
+      PuppetMan_ParryLanded: -410772104
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
