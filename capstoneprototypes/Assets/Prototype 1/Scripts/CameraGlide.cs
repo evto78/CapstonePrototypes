@@ -35,6 +35,6 @@ public class CameraGlide : MonoBehaviour
         timer = Mathf.Clamp(timer, 0f, 1f);
 
         transform.position = Vector3.Lerp(startPos, endPos, glideCurve.Evaluate(timer));
-        timelinePivot.localEulerAngles = Vector3.forward * 90f * timelineCurve.Evaluate(timer);
+        //timelinePivot.localEulerAngles = Vector3.forward * 90f * timelineCurve.Evaluate(timer);
     }
 }

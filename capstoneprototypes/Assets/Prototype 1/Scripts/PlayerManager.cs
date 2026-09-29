@@ -28,8 +28,14 @@ public class PlayerManager : MonoBehaviour
 
     public bool combatActive;
 
+    GeneralAnimator gAnim;
+
     private void Start()
     {
+        gAnim = GetComponent<GeneralAnimator>();
+
+        //gAnim.StartCoroutine(gAnim.GlideToPos(Vector3.right*4f,2,true));
+
         hp = mhp;
     }
 
