@@ -23,6 +23,7 @@ public class PlayerActionManager : MonoBehaviour
 
     [Header("Visuals")]
     public List<ParticleSystem> parryParticles;
+    public List<ParticleSystem> perfectParticles;
     public List<Sprite> sprites;
     int activeSprite = 0;
 
@@ -120,7 +121,7 @@ public class PlayerActionManager : MonoBehaviour
         //If player is already perfecting, then resolve this now.
         else if (onComingEvent.eventType == TimelineManager.EventType.PlayerAtk)
         {
-            if (perfectActive) { PlayerAttacked(onComingEvent, 0f); }
+            if (perfectActive) { PlayerActivateSkill(onComingEvent, 0f); }
             else
             {
                 //Otherwise, Wait for up to half of the perfect window, and check again.
@@ -128,12 +129,12 @@ public class PlayerActionManager : MonoBehaviour
                 float tempTimer = perfectWindow / 2f;
                 while (tempTimer > 0 && attackProcessed == false)
                 {
-                    if (perfectActive) { attackProcessed = true; PlayerAttacked(onComingEvent, (perfectWindow / 2f) - tempTimer); }
+                    if (perfectActive) { attackProcessed = true; PlayerActivateSkill(onComingEvent, (perfectWindow / 2f) - tempTimer); }
                     tempTimer -= Time.deltaTime;
                     yield return new WaitForEndOfFrame();
                 }
                 //If the attack still wasn't parried, send it now.
-                if (!attackProcessed) { PlayerAttacked(onComingEvent, (perfectWindow / 2f) - tempTimer); }
+                if (!attackProcessed) { PlayerActivateSkill(onComingEvent, (perfectWindow / 2f) - tempTimer); }
             }
         }
 
@@ -145,24 +146,51 @@ public class PlayerActionManager : MonoBehaviour
     {
         if (parryActive)
         {
-            //Parry landed
+            ParryLanded();
         }
         else
         {
-            //Normal Damage
+            TakeDamage(attackEvent.enemyAction.damage);
         }
     }
 
-    //One of the players attacks are about to land
-    public void PlayerAttacked(TimelineManager.TimelineEvent attackEvent, float delay)
+    //One of the players skills are about to activate
+    public void PlayerActivateSkill(TimelineManager.TimelineEvent attackEvent, float delay)
     {
-        if (perfectActive)
+        if (attackEvent.playerSkill.perfectable && perfectActive)
         {
-            //Perfect landed
+            PerfectLanded();
         }
-        else
+
+        PlayerSkill skill = attackEvent.playerSkill;
+        switch (skill.id)
         {
-            //Normal Damage
+            case 0: break;
         }
+    }
+
+    void TakeDamage(float dmg)
+    {
+        hp -= dmg;
+        if (hp <= 0) { Die(); }
+    }
+
+    void Die()
+    {
+        Debug.Log("DEAD!");
+    }
+
+    void ParryLanded()
+    {
+        parryLanded = true;
+        foreach (ParticleSystem ps in parryParticles) { ps.Stop(); ps.Play(); }
+        UpdateVisuals();
+    }
+
+    void PerfectLanded()
+    {
+        perfectLanded = true;
+        foreach (ParticleSystem ps in perfectParticles) { ps.Stop(); ps.Play(); }
+        UpdateVisuals();
     }
 }

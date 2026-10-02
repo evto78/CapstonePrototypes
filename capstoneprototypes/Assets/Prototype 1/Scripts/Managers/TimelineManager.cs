@@ -14,8 +14,13 @@ public class TimelineManager : MonoBehaviour
         public RectTransform markerTrans;
         public bool removed = false;
 
+        //Enemy event
         public Enemy enemyOwner;
         public Enemy.Action enemyAction;
+
+        //Player skill
+        public PlayerSkill playerSkill;
+        public Enemy enemyTargeted;
     }
     public enum EventType { EnemyAtk, PlayerAtk, SpeedUp, SpeedDown, None, ReverseStart, ReverseEnd, PortalStart, PortalEnd }
 
