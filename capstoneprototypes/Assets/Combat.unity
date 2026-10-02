@@ -2162,6 +2162,7 @@ MonoBehaviour:
   - {fileID: 1191142449884842657}
   - {fileID: 1191142449884842656}
   - {fileID: 1191142449884842655}
+  perfectParticles: []
   sprites:
   - {fileID: 1594208413, guid: a14248473a1ce0d43ab64a79fb8ea730, type: 3}
   - {fileID: 1439330741, guid: a14248473a1ce0d43ab64a79fb8ea730, type: 3}
