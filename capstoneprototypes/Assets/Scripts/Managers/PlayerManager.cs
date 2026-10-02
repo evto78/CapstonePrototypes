@@ -34,8 +34,6 @@ public class PlayerManager : MonoBehaviour
     {
         gAnim = GetComponent<GeneralAnimator>();
 
-        //gAnim.StartCoroutine(gAnim.GlideToPos(Vector3.right*4f,2,true));
-
         hp = mhp;
     }
 

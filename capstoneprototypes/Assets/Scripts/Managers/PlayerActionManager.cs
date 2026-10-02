@@ -93,6 +93,12 @@ public class PlayerActionManager : MonoBehaviour
 
     void UpdateVisuals()
     {
+        fillBar.fillAmount = hp / mhp;
+        if (parryLanded) { activeSprite = 3; }
+        else if (perfectLanded) { activeSprite = 4; }
+        else if (parryActive) { activeSprite = 2; }
+        else if (curParryCooldown > 0) { activeSprite = 1; }
+        else { activeSprite = 0; }
         sr.sprite = sprites[activeSprite];
     }
 
@@ -178,6 +184,7 @@ public class PlayerActionManager : MonoBehaviour
     void Die()
     {
         Debug.Log("DEAD!");
+        gameObject.SetActive(false);
     }
 
     void ParryLanded()
