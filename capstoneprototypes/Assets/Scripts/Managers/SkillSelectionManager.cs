@@ -8,7 +8,10 @@ public class SkillSelectionManager : MonoBehaviour
 {
     public List<GameObject> skillButtons;
     public TextMeshProUGUI readout;
+    public TextMeshProUGUI energyText;
     PlayerActionManager player;
+
+    public List<ReadoutOnHover> readoutObjects;
 
     private void Awake()
     {
@@ -26,6 +29,17 @@ public class SkillSelectionManager : MonoBehaviour
                 readout.text = player.equippedSkills[i].skillDescription;
             }
         }
+        if (!hovering)
+        {
+            foreach (ReadoutOnHover readoutObj in readoutObjects)
+            {
+                if (IsTouchingMouse(readoutObj.gameObject))
+                {
+                    readout.text = readoutObj.readoutText;
+                    hovering = true;
+                }
+            }
+        }
         if (!hovering) { readout.text = "..."; }
 
         UpdateVisuals();
@@ -33,13 +47,15 @@ public class SkillSelectionManager : MonoBehaviour
 
     void UpdateVisuals()
     {
-        TextMeshProUGUI skillTXT;
+        TextMeshProUGUI skillText;
 
         for (int i = 0; i < skillButtons.Count; i++)
         {
-            skillTXT = skillButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-            skillTXT.text = player.equippedSkills[i].skillName;
+            skillText = skillButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+            skillText.text = player.equippedSkills[i].skillName;
         }
+
+        energyText.text = player.energy.ToString();
     }
 
     public bool IsTouchingMouse(GameObject g)

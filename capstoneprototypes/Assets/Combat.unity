@@ -173,6 +173,8 @@ MonoBehaviour:
   - {fileID: 676226076}
   - {fileID: 524927207}
   readout: {fileID: 1041489101}
+  energyText: {fileID: 151975235}
+  readoutObjects: []
 --- !u!1 &67800628
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,7 +730,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e897324d2bf119a4097264e2c823c095, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e65b632266bd1b54194c20ee613bd118, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1476,7 +1478,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 64, y: 8}
+  m_Size: {x: 64, y: 10}
   m_EdgeRadius: 0
 --- !u!1 &535743763
 GameObject:
@@ -1775,7 +1777,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 64, y: 8}
+  m_Size: {x: 64, y: 10}
   m_EdgeRadius: 0
 --- !u!1 &678886995
 GameObject:
@@ -2505,7 +2507,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e897324d2bf119a4097264e2c823c095, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e65b632266bd1b54194c20ee613bd118, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2603,7 +2605,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 64, y: 8}
+  m_Size: {x: 64, y: 10}
   m_EdgeRadius: 0
 --- !u!1 &1100336037
 GameObject:
@@ -2798,6 +2800,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1142211850}
+  - component: {fileID: 1142211852}
+  - component: {fileID: 1142211851}
   m_Layer: 5
   m_Name: Energy
   m_TagString: Untagged
@@ -2825,6 +2829,65 @@ RectTransform:
   m_AnchoredPosition: {x: -22, y: 10.999999}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &1142211851
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142211849}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 18, y: 18}
+  m_EdgeRadius: 0
+--- !u!114 &1142211852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142211849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1282207b29033e94fac172d08383a199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  readoutText: This is your energy. Some skills cost energy to use, and your energy
+    is restored every turn.
 --- !u!1 &1182907515
 GameObject:
   m_ObjectHideFlags: 0
@@ -3408,7 +3471,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 64, y: 8}
+  m_Size: {x: 64, y: 10}
   m_EdgeRadius: 0
 --- !u!1 &1403245138
 GameObject:
@@ -3599,7 +3662,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e897324d2bf119a4097264e2c823c095, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e65b632266bd1b54194c20ee613bd118, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3776,7 +3839,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7.15
+  m_fontSize: 5.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3812,7 +3875,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 2.962799, y: 0.9311676, z: 3.047449, w: 1.0158157}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4443,7 +4506,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7.15
+  m_fontSize: 5.2
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4479,7 +4542,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 2.962799, y: 1.1004686, z: 2.962801, w: 1.0535622}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -5001,7 +5064,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e897324d2bf119a4097264e2c823c095, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e65b632266bd1b54194c20ee613bd118, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5192,7 +5255,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7.15
+  m_fontSize: 5.5
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5228,7 +5291,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 3.0541801, y: 0.9220123, z: 2.8813019, w: 0.9220171}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -5401,7 +5464,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7.15
+  m_fontSize: 5.35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5437,7 +5500,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 2.9965591, y: 0.97964287, z: 3.0541801, w: 1.0372734}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -5459,6 +5522,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 632002506906055827, guid: 831809e2b713adb46b508f4b02e282d7, type: 3}
+      propertyPath: energy
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 632002506906055827, guid: 831809e2b713adb46b508f4b02e282d7, type: 3}
+      propertyPath: maxEnergy
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4450005934008948705, guid: 831809e2b713adb46b508f4b02e282d7, type: 3}
       propertyPath: m_Name
       value: Player

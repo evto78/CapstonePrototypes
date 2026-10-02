@@ -99,6 +99,8 @@ public class TimelineManager : MonoBehaviour
         PrepareNextRound();
         foreach (Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
 
+        player.SkillSelectStart();
+
         camGlide.isUp = false;
     }
     public void StartRound()
@@ -128,6 +130,8 @@ public class TimelineManager : MonoBehaviour
 
         PrepareNextRound();
         foreach (Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
+
+        player.SkillSelectStart();
 
         camGlide.isUp = false;
     }

@@ -15,6 +15,9 @@ public class PlayerActionManager : MonoBehaviour
     public int hp;
     public int mhp;
 
+    public int maxEnergy;
+    public int energy;
+
     public float parryWindow;
     public float parryCooldown;
     float curParryCooldown = 0;
@@ -59,6 +62,7 @@ public class PlayerActionManager : MonoBehaviour
     void Start()
     {
         hp = mhp;
+        energy = maxEnergy;
 
         curParryCooldown = 0f;
         parryActive = false;
@@ -78,6 +82,11 @@ public class PlayerActionManager : MonoBehaviour
             equippedSkills.Add(skillData[2]);
             equippedSkills.Add(skillData[3]);
         }
+    }
+
+    public void SkillSelectStart()
+    {
+        energy = maxEnergy;
     }
 
     void SortStatusEffectData()
