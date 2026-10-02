@@ -14939,7 +14939,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5629271319892038021}
-  - component: {fileID: 523420907192523612}
+  - component: {fileID: 632002506906055827}
   - component: {fileID: 8927721334131760205}
   m_Layer: 0
   m_Name: Player
@@ -14969,7 +14969,7 @@ Transform:
   - {fileID: 7672061425304758241}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &523420907192523612
+--- !u!114 &632002506906055827
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14978,15 +14978,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 4450005934008948705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a330c6919ca34e4b84bf8602871f8d4, type: 3}
+  m_Script: {fileID: 11500000, guid: f07dd4771a2c3034d84468156993b35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 20
+  mhp: 20
+  parryWindow: 0.1
+  parryCooldown: 0.2
+  perfectWindow: 0.1
+  perfectCooldown: 0.2
   parryParticles:
   - {fileID: 5306769666429092706}
   - {fileID: 6065430576673606583}
   - {fileID: 3897121194353002388}
   - {fileID: 9196237744488307261}
-  fillBar: {fileID: 2859221665055006733}
+  perfectParticles: []
   sprites:
   - {fileID: 1594208413, guid: a14248473a1ce0d43ab64a79fb8ea730, type: 3}
   - {fileID: 1439330741, guid: a14248473a1ce0d43ab64a79fb8ea730, type: 3}
@@ -14994,13 +15000,7 @@ MonoBehaviour:
   - {fileID: -410772104, guid: a14248473a1ce0d43ab64a79fb8ea730, type: 3}
   - {fileID: -1371161698, guid: a14248473a1ce0d43ab64a79fb8ea730, type: 3}
   sr: {fileID: 7005099938305749997}
-  hp: 10
-  mhp: 10
-  parryWindow: 0.1
-  parryCooldown: 0.2
-  perfectWindow: 0
-  perfectCooldown: 0
-  combatActive: 1
+  fillBar: {fileID: 2859221665055006733}
 --- !u!114 &8927721334131760205
 MonoBehaviour:
   m_ObjectHideFlags: 0

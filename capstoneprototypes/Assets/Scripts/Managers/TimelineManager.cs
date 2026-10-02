@@ -49,12 +49,12 @@ public class TimelineManager : MonoBehaviour
     public GameObject spotlight;
     public Image fillBar;
     public GameObject markerPrefab;
-    PlayerManager player;
+    PlayerActionManager player;
     public Transform thresholdBar;
 
     private void Awake()
     {
-        player = GameObject.Find("Player").GetComponent<PlayerManager>();
+        player = GameObject.Find("Player").GetComponent<PlayerActionManager>();
     }
 
     private void Start()
@@ -218,7 +218,7 @@ public class TimelineManager : MonoBehaviour
     {
         switch (tEvent.eventType)
         {
-            case EventType.EnemyAtk: tEvent.enemyOwner.Attack(tEvent.enemyAction.damage); break;
+            case EventType.EnemyAtk: tEvent.enemyOwner.Attack(tEvent); break;
             case EventType.PlayerAtk: break;
             case EventType.SpeedUp: combatSpeed += tEvent.enemyAction.damage; break;
             case EventType.SpeedDown: combatSpeed -= tEvent.enemyAction.damage; break;

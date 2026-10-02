@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour
     TimelineManager timeline;
     float curTimePassed; //The amount of time passed according to the timeline. Accurate to all timeline distortions.
     float curTimelineIndex; //The amount of time passed according to the current index of the timeline relative to its resolution. Accurate to all timeline distortions.
-    PlayerManager player;
+    PlayerActionManager player;
     public List<AttackPattern> attackPatterns;
     int curRound;
     public List<int> patternByRound;
@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         timeline = GameObject.Find("Timeline").GetComponent<TimelineManager>();
-        player = GameObject.Find("Player").GetComponent<PlayerManager>();
+        player = GameObject.Find("Player").GetComponent<PlayerActionManager>();
 
         timeline.activeEnemies.Add(this);
     }
@@ -193,9 +193,9 @@ public class Enemy : MonoBehaviour
         sr.sprite = spriteList[activeSprite];
     }
 
-    public void Attack(float damage)
+    public void Attack(TimelineManager.TimelineEvent attackEvent)
     {
-        player.MonsterAttacked(damage);
+        player.StartCoroutine(player.ReactableEvent(attackEvent));
     }
 
     public void PrepareForNextRound()
