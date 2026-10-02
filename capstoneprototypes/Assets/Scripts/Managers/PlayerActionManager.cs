@@ -5,9 +5,15 @@ using UnityEngine.UI;
 
 public class PlayerActionManager : MonoBehaviour
 {
+    public class StatusEffectInstance
+    {
+        public StatusEffect data;
+        public int stacks;
+    }
+
     [Header("Functional")]
-    public float hp;
-    public float mhp;
+    public int hp;
+    public int mhp;
 
     public float parryWindow;
     public float parryCooldown;
@@ -20,6 +26,11 @@ public class PlayerActionManager : MonoBehaviour
     float curPerfectCooldown = 0;
     bool perfectActive;
     bool perfectLanded;
+
+    public List<StatusEffectInstance> statEffects;
+    public List<StatusEffect> statData;
+    public List<PlayerSkill> equippedSkills;
+    public List<PlayerSkill> skillData;
 
     [Header("Visuals")]
     public List<ParticleSystem> parryParticles;
@@ -37,6 +48,12 @@ public class PlayerActionManager : MonoBehaviour
     {
         timeline = GameObject.Find("Timeline").GetComponent<TimelineManager>();
         gAnim = GetComponent<GeneralAnimator>();
+
+        statData.AddRange(Resources.LoadAll<StatusEffect>("StatusEffects"));
+        SortStatusEffectData();
+
+        skillData.AddRange(Resources.LoadAll<PlayerSkill>("Skills"));
+        SortSkillData();
     }
 
     void Start()
@@ -50,6 +67,41 @@ public class PlayerActionManager : MonoBehaviour
         curPerfectCooldown = 0f;
         perfectActive = false;
         perfectLanded = false;
+
+        statEffects = new List<StatusEffectInstance>();
+
+        if (equippedSkills == null || equippedSkills.Count < 4)
+        {
+            equippedSkills = new List<PlayerSkill>();
+            equippedSkills.Add(skillData[0]);
+            equippedSkills.Add(skillData[1]);
+            equippedSkills.Add(skillData[2]);
+            equippedSkills.Add(skillData[3]);
+        }
+    }
+
+    void SortStatusEffectData()
+    {
+        List<int> comparisonList = new List<int>();
+        List<StatusEffect> sortedItemData = new List<StatusEffect>();
+        for (int i = 0; i < statData.Count; i++) { comparisonList.Add(i); sortedItemData.Add(null); }
+        for (int i = 0; i < statData.Count; i++)
+        {
+            sortedItemData[comparisonList.IndexOf(statData[i].id)] = statData[i];
+        }
+        statData = sortedItemData;
+    }
+
+    void SortSkillData()
+    {
+        List<int> comparisonList = new List<int>();
+        List<PlayerSkill> sortedItemData = new List<PlayerSkill>();
+        for (int i = 0; i < skillData.Count; i++) { comparisonList.Add(i); sortedItemData.Add(null); }
+        for (int i = 0; i < skillData.Count; i++)
+        {
+            sortedItemData[comparisonList.IndexOf(skillData[i].id)] = skillData[i];
+        }
+        skillData = sortedItemData;
     }
 
     void Update()
@@ -93,7 +145,7 @@ public class PlayerActionManager : MonoBehaviour
 
     void UpdateVisuals()
     {
-        fillBar.fillAmount = hp / mhp;
+        fillBar.fillAmount = (float)hp / (float)mhp;
         if (parryLanded) { activeSprite = 3; }
         else if (perfectLanded) { activeSprite = 4; }
         else if (parryActive) { activeSprite = 2; }
@@ -163,19 +215,40 @@ public class PlayerActionManager : MonoBehaviour
     //One of the players skills are about to activate
     public void PlayerActivateSkill(TimelineManager.TimelineEvent attackEvent, float delay)
     {
-        if (attackEvent.playerSkill.perfectable && perfectActive)
+        PlayerSkill skill = attackEvent.playerSkill;
+        float perfectMult = 1;
+
+        if (skill.perfectable && perfectActive)
         {
             PerfectLanded();
+            perfectMult = skill.perfectMultiplier;
         }
 
-        PlayerSkill skill = attackEvent.playerSkill;
         switch (skill.id)
         {
-            case 0: break;
+            case 0: attackEvent.enemyTargeted.TakeDamage(Mathf.CeilToInt(skill.intensity * perfectMult)); break; //Bash
+            case 1: attackEvent.enemyTargeted.TakeDamage(Mathf.CeilToInt(skill.intensity * perfectMult)); break; //Heavy Bash
+            case 3: AddStatusEffect(0, Mathf.CeilToInt(skill.intensity * perfectMult)); break; //Focus
         }
     }
 
-    void TakeDamage(float dmg)
+    void AddStatusEffect(int id, int stacks)
+    {
+        bool statusApplied = false;
+        foreach(StatusEffectInstance effectInstance in statEffects)
+        {
+            if (effectInstance.data.id == id) { effectInstance.stacks += stacks; statusApplied = true; }
+        }
+        if (!statusApplied) 
+        {
+            StatusEffectInstance newEffectInstance = new StatusEffectInstance();
+            newEffectInstance.stacks = stacks;
+            newEffectInstance.data = statData[id];
+            statEffects.Add(newEffectInstance); 
+        }
+    }
+
+    void TakeDamage(int dmg)
     {
         hp -= dmg;
         if (hp <= 0) { Die(); }

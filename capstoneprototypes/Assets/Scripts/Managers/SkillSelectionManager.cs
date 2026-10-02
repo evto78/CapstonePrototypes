@@ -8,14 +8,13 @@ public class SkillSelectionManager : MonoBehaviour
 {
     public List<GameObject> skillButtons;
     public TextMeshProUGUI readout;
+    PlayerActionManager player;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        player = GameObject.Find("Player").GetComponent<PlayerActionManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         bool hovering = false;
@@ -24,10 +23,23 @@ public class SkillSelectionManager : MonoBehaviour
             if (IsTouchingMouse(skillButtons[i])) 
             {
                 hovering = true;
-                readout.text = "You are looking at skill " + (i+1);
+                readout.text = player.equippedSkills[i].skillDescription;
             }
         }
         if (!hovering) { readout.text = "..."; }
+
+        UpdateVisuals();
+    }
+
+    void UpdateVisuals()
+    {
+        TextMeshProUGUI skillTXT;
+
+        for (int i = 0; i < skillButtons.Count; i++)
+        {
+            skillTXT = skillButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+            skillTXT.text = player.equippedSkills[i].skillName;
+        }
     }
 
     public bool IsTouchingMouse(GameObject g)

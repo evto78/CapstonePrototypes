@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public class Action
     {
         public TimelineManager.EventType actionType;
-        public float damage; //If the action is an attack, how much damage should it do? If the action is speed up / down, how much should the combat time change by?
+        public int damage; //If the action is an attack, how much damage should it do? If the action is speed up / down, how much should the combat time change by?
 
         //Try to make the delay in 160ths. As a tip, 0.05 is 8/160, and so 0.025 is 4/160. Not strictly needed, but helps make timing make more sense!
         public float delayBeforeAction; //How long should this enemy wait before doing this action?
@@ -203,5 +203,17 @@ public class Enemy : MonoBehaviour
         activeSprite = 0;
         attackCircle.fillAmount = 0;
         UpdateVisuals();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        hp -= damage;
+
+        if (hp <= 0) { Die(); }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }
