@@ -14,14 +14,12 @@ public class PlayerActionManager : MonoBehaviour
     float curParryCooldown = 0;
     bool parryActive;
     bool parryLanded;
-    bool blockActive;
 
     public float perfectWindow;
     public float perfectCooldown;
     float curPerfectCooldown = 0;
     bool perfectActive;
     bool perfectLanded;
-    bool attackActive;
 
     [Header("Visuals")]
     public List<ParticleSystem> parryParticles;
@@ -47,16 +45,22 @@ public class PlayerActionManager : MonoBehaviour
         curParryCooldown = 0f;
         parryActive = false;
         parryLanded = false;
-        blockActive = false;
 
         curPerfectCooldown = 0f;
         perfectActive = false;
         perfectLanded = false;
-        attackActive = false;
     }
 
     void Update()
     {
+        //Manage Timers
+        curParryCooldown -= Time.deltaTime; if (curParryCooldown < 0) { curParryCooldown = 0; }
+        curPerfectCooldown -= Time.deltaTime; if (curPerfectCooldown < 0) { curPerfectCooldown = 0; }
+
+        //Check if parry / perfect window is over
+        parryActive = parryCooldown - curParryCooldown < parryWindow; if (!parryActive) { parryLanded = false; }
+        perfectActive = perfectCooldown - curPerfectCooldown < perfectWindow; if (!perfectActive) { perfectLanded = false; }
+
         GetInputs();
         UpdateVisuals();
     }
@@ -74,16 +78,91 @@ public class PlayerActionManager : MonoBehaviour
     {
         if (curParryCooldown > 0 && !parryLanded) { return; }
 
-
+        curParryCooldown = parryCooldown;
+        parryActive = true;
     }
 
     void AttemptPerfect()
     {
         if (curPerfectCooldown > 0 && !perfectLanded) { return; }
+
+        curPerfectCooldown = perfectCooldown;
+        perfectActive = true;
     }
 
     void UpdateVisuals()
     {
         sr.sprite = sprites[activeSprite];
+    }
+
+    public IEnumerator ReactableEvent(TimelineManager.TimelineEvent onComingEvent)
+    {
+        //If player is already parrying, then resolve this now.
+        if (onComingEvent.eventType == TimelineManager.EventType.EnemyAtk)
+        {
+            if (parryActive) { MonsterAttacked(onComingEvent, 0f); }
+            else
+            {
+                //Otherwise, Wait for up to half of the parry window, and check again.
+                bool attackProcessed = false;
+                float tempTimer = parryWindow / 2f;
+                while (tempTimer > 0 && attackProcessed == false)
+                {
+                    if (parryActive) { attackProcessed = true; MonsterAttacked(onComingEvent, (parryWindow / 2f) - tempTimer); }
+                    tempTimer -= Time.deltaTime;
+                    yield return new WaitForEndOfFrame();
+                }
+                //If the attack still wasn't parried, send it now.
+                if (!attackProcessed) { MonsterAttacked(onComingEvent, (parryWindow / 2f) - tempTimer); }
+            }
+        }
+
+        //If player is already perfecting, then resolve this now.
+        else if (onComingEvent.eventType == TimelineManager.EventType.PlayerAtk)
+        {
+            if (perfectActive) { PlayerAttacked(onComingEvent, 0f); }
+            else
+            {
+                //Otherwise, Wait for up to half of the perfect window, and check again.
+                bool attackProcessed = false;
+                float tempTimer = perfectWindow / 2f;
+                while (tempTimer > 0 && attackProcessed == false)
+                {
+                    if (perfectActive) { attackProcessed = true; PlayerAttacked(onComingEvent, (perfectWindow / 2f) - tempTimer); }
+                    tempTimer -= Time.deltaTime;
+                    yield return new WaitForEndOfFrame();
+                }
+                //If the attack still wasn't parried, send it now.
+                if (!attackProcessed) { PlayerAttacked(onComingEvent, (perfectWindow / 2f) - tempTimer); }
+            }
+        }
+
+        yield return null;
+    }
+
+    //An enemy is about to hit the player
+    public void MonsterAttacked(TimelineManager.TimelineEvent attackEvent, float delay)
+    {
+        if (parryActive)
+        {
+            //Parry landed
+        }
+        else
+        {
+            //Normal Damage
+        }
+    }
+
+    //One of the players attacks are about to land
+    public void PlayerAttacked(TimelineManager.TimelineEvent attackEvent, float delay)
+    {
+        if (perfectActive)
+        {
+            //Perfect landed
+        }
+        else
+        {
+            //Normal Damage
+        }
     }
 }
