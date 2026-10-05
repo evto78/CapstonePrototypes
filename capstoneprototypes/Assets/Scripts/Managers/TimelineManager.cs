@@ -118,6 +118,12 @@ public class TimelineManager : MonoBehaviour
         prevEventIndex = -1;
         roundNumber++;
 
+        foreach (TimelineEvent e in eventList)
+        {
+            Destroy(e.markerTrans.gameObject);
+            e.removed = true;
+        }
+
         eventList = new List<TimelineEvent>();
 
         //Check if all enemies are dead. If they are, then end the combat.
@@ -225,7 +231,7 @@ public class TimelineManager : MonoBehaviour
         switch (tEvent.eventType)
         {
             case EventType.EnemyAtk: tEvent.enemyOwner.Attack(tEvent); break;
-            case EventType.PlayerAtk: break;
+            case EventType.PlayerAtk: player.StartCoroutine(player.ReactableEvent(tEvent)); break;
             case EventType.SpeedUp: combatSpeed += tEvent.enemyAction.damage; break;
             case EventType.SpeedDown: combatSpeed -= tEvent.enemyAction.damage; break;
             case EventType.None: break;

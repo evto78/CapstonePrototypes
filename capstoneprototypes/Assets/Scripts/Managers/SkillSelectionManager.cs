@@ -53,6 +53,8 @@ public class SkillSelectionManager : MonoBehaviour
         {
             skillText = skillButtons[i].GetComponentInChildren<TextMeshProUGUI>();
             skillText.text = player.equippedSkills[i].skillName;
+
+            if (player.equippedSkills[i].cost > player.energy) { skillButtons[i].GetComponentInChildren<Button>().interactable = false; } else { skillButtons[i].GetComponentInChildren<Button>().interactable = true; }
         }
 
         energyText.text = player.energy.ToString();

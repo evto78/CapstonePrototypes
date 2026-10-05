@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerActionManager : MonoBehaviour
 {
+    [System.Serializable]
     public class StatusEffectInstance
     {
         public StatusEffect data;
