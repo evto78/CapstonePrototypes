@@ -18,6 +18,8 @@ public class PlayerActionManager : MonoBehaviour
     public int maxEnergy;
     public int energy;
 
+    float timeSpent;
+
     public float parryWindow;
     public float parryCooldown;
     float curParryCooldown = 0;
@@ -87,6 +89,7 @@ public class PlayerActionManager : MonoBehaviour
     public void SkillSelectStart()
     {
         energy = maxEnergy;
+        timeSpent = 0f;
     }
 
     void SortStatusEffectData()
@@ -238,6 +241,23 @@ public class PlayerActionManager : MonoBehaviour
             case 0: attackEvent.enemyTargeted.TakeDamage(Mathf.CeilToInt(skill.intensity * perfectMult)); break; //Bash
             case 1: attackEvent.enemyTargeted.TakeDamage(Mathf.CeilToInt(skill.intensity * perfectMult)); break; //Heavy Bash
             case 3: AddStatusEffect(0, Mathf.CeilToInt(skill.intensity * perfectMult)); break; //Focus
+        }
+    }
+
+    //Called by the skill selection buttons when clicked
+    public void AttemptUseSkill(int skillSlotIndex)
+    {
+        if (timeline.combatActive && timeline.combatPause)
+        {
+            PlayerSkill skill = equippedSkills[skillSlotIndex];
+
+            if (timeline.combatTime < skill.prepTime) { Debug.LogError("Not enough time to use skill."); return; }
+            if (energy < skill.cost) { Debug.LogError("Not enough energy to use skill."); return; }
+
+            int timeIndex = timeline.IndexFromTime(timeSpent + skill.prepTime);
+            timeline.AddMarker(timeIndex, TimelineManager.EventType.PlayerAtk, null, null, skill, timeline.activeEnemies[0]);
+            timeSpent += skill.prepTime;
+            energy -= skill.cost;
         }
     }
 

@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour
                 accumulatedDelay += action.delayBeforeAction;
                 if (accumulatedDelay > timeline.combatTime) { break; }
                 int indexOfDelay = Mathf.FloorToInt((accumulatedDelay / timeline.combatTime) * timeline.resolution);
-                timeline.AddMarker(indexOfDelay, action.actionType, this, action);
+                timeline.AddMarker(indexOfDelay, action.actionType, this, action, null, null);
                 accumulatedDelay += action.delayAfterAction;
             }
         }

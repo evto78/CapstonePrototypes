@@ -200,13 +200,15 @@ public class TimelineManager : MonoBehaviour
 
         if (eventIndex > resolution) { EndRound(); }
     }
-    public void AddMarker(int index, EventType eventType, Enemy enemyOwner, Enemy.Action enemyAction)
+    public void AddMarker(int index, EventType eventType, Enemy enemyOwner, Enemy.Action enemyAction, PlayerSkill playerSkill, Enemy enemyTargeted)
     {
         TimelineEvent newEvent = new TimelineEvent();
         newEvent.eventType = eventType;
         newEvent.timelineIndex = index;
         newEvent.enemyOwner = enemyOwner;
         newEvent.enemyAction = enemyAction;
+        newEvent.playerSkill = playerSkill;
+        newEvent.enemyTargeted = enemyTargeted;
 
         RectTransform newMarker = Instantiate(markerPrefab, transform.GetChild(0)).GetComponent<RectTransform>();
         MarkerObject markObj = newMarker.GetComponent<MarkerObject>();
