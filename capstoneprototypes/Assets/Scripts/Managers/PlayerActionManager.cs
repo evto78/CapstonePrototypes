@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -128,7 +129,6 @@ public class PlayerActionManager : MonoBehaviour
         perfectActive = perfectCooldown - curPerfectCooldown < perfectWindow; if (!perfectActive) { perfectLanded = false; }
 
         GetInputs();
-        UpdateVisuals();
     }
 
     void GetInputs()
@@ -159,12 +159,39 @@ public class PlayerActionManager : MonoBehaviour
     void UpdateVisuals()
     {
         fillBar.fillAmount = (float)hp / (float)mhp;
+
+        if (updatedSprite) { return; }
+
         if (parryLanded) { activeSprite = 3; }
         else if (perfectLanded) { activeSprite = 4; }
         else if (parryActive) { activeSprite = 2; }
         else if (curParryCooldown > 0) { activeSprite = 1; }
         else { activeSprite = 0; }
         sr.sprite = sprites[activeSprite];
+
+        updatedSprite = true;
+    }
+
+    bool updatedSprite = false;
+    void LateUpdate()
+    {
+        UpdateVisuals();
+        updatedSprite = false;
+    }
+
+    Coroutine animRoutine;
+    IEnumerator PlayAnimation(int animationIndex)
+    {
+        float tempTimer = 0.1f;
+        while(tempTimer > 0)
+        {
+            activeSprite = animationIndex;
+            sr.sprite = sprites[activeSprite];
+            updatedSprite = true;
+            tempTimer -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }      
+        yield return null;
     }
 
     public IEnumerator ReactableEvent(TimelineManager.TimelineEvent onComingEvent)
@@ -294,13 +321,15 @@ public class PlayerActionManager : MonoBehaviour
     {
         parryLanded = true;
         foreach (ParticleSystem ps in parryParticles) { ps.Stop(); ps.Play(); }
-        UpdateVisuals();
+        if (animRoutine != null) { StopCoroutine(animRoutine); }
+        animRoutine = StartCoroutine(PlayAnimation(3));
     }
 
     void PerfectLanded()
     {
         perfectLanded = true;
         foreach (ParticleSystem ps in perfectParticles) { ps.Stop(); ps.Play(); }
-        UpdateVisuals();
+        if (animRoutine != null) { StopCoroutine(animRoutine); }
+        animRoutine = StartCoroutine(PlayAnimation(4));
     }
 }

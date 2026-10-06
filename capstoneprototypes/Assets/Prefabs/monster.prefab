@@ -177,8 +177,8 @@ MonoBehaviour:
   - {fileID: 1239828162, guid: f65028d8e7db6cb43baba9f25593a23e, type: 3}
   sr: {fileID: 5527803406950479304}
   attackCircle: {fileID: 7715435569857874182}
-  mhp: 3
-  hp: 3
+  mhp: 10
+  hp: 10
   attackPatterns:
   - timelineChangePriority: 1
     timelineCombatTimePref: 6
