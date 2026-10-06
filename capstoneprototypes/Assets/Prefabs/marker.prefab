@@ -64,7 +64,7 @@ MonoBehaviour:
   markerSprites:
   - {fileID: 21300000, guid: 0fea79f76243dfc4daef0538739dcf50, type: 3}
   - {fileID: 21300000, guid: 429d56b19fe7d9f47b5c0e9e3ee1d637, type: 3}
-  - {fileID: 21300000, guid: 9804fd4035c1a5a48b276045fc023ac4, type: 3}
+  - {fileID: 21300000, guid: 051183c29a0d9644489e39a1dc0a459f, type: 3}
   - {fileID: 21300000, guid: d43865481ad1b5447ad408d198bdf3e8, type: 3}
   - {fileID: 0}
 --- !u!1 &2771604132737764313

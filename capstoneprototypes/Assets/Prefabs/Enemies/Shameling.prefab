@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 2742526880035886883}
   - component: {fileID: 8799480677778714446}
   m_Layer: 0
-  m_Name: monster
+  m_Name: Shameling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
