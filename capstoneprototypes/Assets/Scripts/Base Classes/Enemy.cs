@@ -195,6 +195,7 @@ public class Enemy : MonoBehaviour
 
     public void Attack(TimelineManager.TimelineEvent attackEvent)
     {
+        if (player == null || !player.isActiveAndEnabled) { return; }
         player.StartCoroutine(player.ReactableEvent(attackEvent));
     }
 
