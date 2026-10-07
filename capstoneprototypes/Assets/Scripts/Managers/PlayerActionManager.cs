@@ -44,6 +44,8 @@ public class PlayerActionManager : MonoBehaviour
     public List<ParticleSystem> perfectParticles;
     public List<Sprite> sprites;
     int activeSprite = 0;
+    public Image energyFill;
+    float visualEnergyLeft;
 
     [Header("References")]
     TimelineManager timeline;
@@ -158,7 +160,10 @@ public class PlayerActionManager : MonoBehaviour
 
     void UpdateVisuals()
     {
+        visualEnergyLeft = Mathf.Lerp(visualEnergyLeft, energy, Time.deltaTime);
+
         fillBar.fillAmount = (float)hp / (float)mhp;
+        energyFill.fillAmount = (Mathf.CeilToInt((visualEnergyLeft / (float)maxEnergy) * 16f)) / 16f;
 
         if (updatedSprite) { return; }
 
