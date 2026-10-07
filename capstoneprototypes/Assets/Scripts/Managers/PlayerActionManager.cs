@@ -46,6 +46,8 @@ public class PlayerActionManager : MonoBehaviour
     int activeSprite = 0;
     public Image energyFill;
     float visualEnergyLeft;
+    public SpriteRenderer healthBar;
+    public List<Sprite> healthBarStates;
 
     [Header("References")]
     TimelineManager timeline;
@@ -164,6 +166,8 @@ public class PlayerActionManager : MonoBehaviour
 
         fillBar.fillAmount = (float)hp / (float)mhp;
         energyFill.fillAmount = (Mathf.CeilToInt((visualEnergyLeft / (float)maxEnergy) * 16f)) / 16f;
+        //Debug.Log(Mathf.CeilToInt(((float)hp / (float)mhp) * healthBarStates.Count));
+        healthBar.sprite = healthBarStates[Mathf.FloorToInt(((float)hp/(float)mhp)*(healthBarStates.Count-1))];
 
         if (updatedSprite) { return; }
 
