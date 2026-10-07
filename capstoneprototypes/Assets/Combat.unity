@@ -8161,26 +8161,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1966678866097778864, guid: 2d6e8a46944fe07498e630b6e3553f1b, type: 3}
-      propertyPath: attackPatterns.Array.data[0].timelineCombatTimePref
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1966678866097778864, guid: 2d6e8a46944fe07498e630b6e3553f1b, type: 3}
-      propertyPath: attackPatterns.Array.data[0].actionSequence.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1966678866097778864, guid: 2d6e8a46944fe07498e630b6e3553f1b, type: 3}
-      propertyPath: attackPatterns.Array.data[1].actionSequence.Array.data[0].delayAfterAction
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1966678866097778864, guid: 2d6e8a46944fe07498e630b6e3553f1b, type: 3}
-      propertyPath: attackPatterns.Array.data[0].actionSequence.Array.data[0].delayBeforeAction
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1966678866097778864, guid: 2d6e8a46944fe07498e630b6e3553f1b, type: 3}
-      propertyPath: attackPatterns.Array.data[1].actionSequence.Array.data[0].delayBeforeAction
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5913989271826315046, guid: 2d6e8a46944fe07498e630b6e3553f1b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.4
@@ -8224,10 +8204,6 @@ PrefabInstance:
     - target: {fileID: 8794168709281493107, guid: 2d6e8a46944fe07498e630b6e3553f1b, type: 3}
       propertyPath: m_Name
       value: NewYear
-      objectReference: {fileID: 0}
-    - target: {fileID: 8794168709281493107, guid: 2d6e8a46944fe07498e630b6e3553f1b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
