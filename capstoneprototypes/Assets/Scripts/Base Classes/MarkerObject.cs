@@ -8,10 +8,26 @@ public class MarkerObject : MonoBehaviour
     public SpriteRenderer sr;
     public List<Sprite> markerSprites;
     public int baseSortingOrder = 40;
-    
+    public SpriteRenderer bgSr;
+
+    public ReadoutOnHover myReadout;
+
     public void SetType(TimelineManager.EventType newType)
     {
-        sr.sprite = markerSprites[newType.GetHashCode()];
-        sr.sortingOrder = baseSortingOrder - newType.GetHashCode();
+        int typeIndex = newType.GetHashCode();
+
+        sr.sprite = markerSprites[typeIndex];
+        sr.sortingOrder = baseSortingOrder - typeIndex;
+
+        myReadout.gameObject.SetActive(true);
+
+        switch (typeIndex)
+        {
+            case 0: myReadout.readoutText = "An enemy will attack at this point in the timeline. Press RMB to parry at the right time!"; bgSr.enabled = true; break;
+            case 1: myReadout.readoutText = "You will use a skill at this point in the timeline. Press LMB to perfect at the right time!"; bgSr.enabled = true; break;
+            case 2: myReadout.readoutText = "At this point in the timeline, the timeline will speed up!"; break;
+            case 3: myReadout.readoutText = "At this point in the timeline, the timeline will slow down!"; break;
+            case 4: myReadout.gameObject.SetActive(false); break;
+        }
     }
 }
