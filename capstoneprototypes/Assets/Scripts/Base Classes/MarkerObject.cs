@@ -7,9 +7,11 @@ public class MarkerObject : MonoBehaviour
 {
     public SpriteRenderer sr;
     public List<Sprite> markerSprites;
+    public int baseSortingOrder = 40;
     
     public void SetType(TimelineManager.EventType newType)
     {
         sr.sprite = markerSprites[newType.GetHashCode()];
+        sr.sortingOrder = baseSortingOrder - newType.GetHashCode();
     }
 }

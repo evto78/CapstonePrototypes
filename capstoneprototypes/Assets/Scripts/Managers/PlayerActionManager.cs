@@ -160,7 +160,7 @@ public class PlayerActionManager : MonoBehaviour
 
     void UpdateVisuals()
     {
-        visualEnergyLeft = Mathf.Lerp(visualEnergyLeft, energy, Time.deltaTime);
+        visualEnergyLeft = Mathf.Lerp(visualEnergyLeft, energy, Time.deltaTime * 10f);
 
         fillBar.fillAmount = (float)hp / (float)mhp;
         energyFill.fillAmount = (Mathf.CeilToInt((visualEnergyLeft / (float)maxEnergy) * 16f)) / 16f;

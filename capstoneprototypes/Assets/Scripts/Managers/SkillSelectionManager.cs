@@ -7,6 +7,9 @@ using TMPro;
 public class SkillSelectionManager : MonoBehaviour
 {
     public List<GameObject> skillButtons;
+    public List<TextMeshProUGUI> energyCost;
+    public List<TextMeshProUGUI> skillText;
+    public List<GameObject> energyIcon;
     public TextMeshProUGUI readout;
     public TextMeshProUGUI energyText;
     PlayerActionManager player;
@@ -47,14 +50,15 @@ public class SkillSelectionManager : MonoBehaviour
 
     void UpdateVisuals()
     {
-        TextMeshProUGUI skillText;
-
         for (int i = 0; i < skillButtons.Count; i++)
         {
-            skillText = skillButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-            skillText.text = player.equippedSkills[i].skillName;
+            skillText[i].text = player.equippedSkills[i].skillName;
+            energyCost[i].text = player.equippedSkills[i].cost.ToString();
 
-            if (player.equippedSkills[i].cost > player.energy) { skillButtons[i].GetComponentInChildren<Button>().interactable = false; } else { skillButtons[i].GetComponentInChildren<Button>().interactable = true; }
+            if (player.equippedSkills[i].cost > player.energy) 
+            { skillButtons[i].GetComponentInChildren<Button>().interactable = false; energyIcon[i].SetActive(false); } 
+            else 
+            { skillButtons[i].GetComponentInChildren<Button>().interactable = true; energyIcon[i].SetActive(true); }
         }
 
         energyText.text = player.energy.ToString();
