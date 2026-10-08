@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
     [Header("Stats")]
     public int mhp;
     public int hp;
+    public ElementalTypes elementalType;
 
     [Header("Functional")]
     TimelineManager timeline;

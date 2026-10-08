@@ -13,6 +13,7 @@ public class PlayerSkill : ScriptableObject
     public TargetType target;
     public int intensity; //If the skill does damage, how much damage? If it heals, how much does it heal?
     public float perfectMultiplier = 1; //How much does a perfect hit affect this skill?
+    public ElementalTypes elementalType;
 
     [Header("Flavor")]
     public string skillName;
