@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allEnemies: []
   allPlayerSkills:
-  - {fileID: 11400000, guid: 6ef66927e6f34bb4196b727d7d916525, type: 2}
+  - {fileID: 11400000, guid: 918c17835a81e0045b9e91306429875c, type: 2}

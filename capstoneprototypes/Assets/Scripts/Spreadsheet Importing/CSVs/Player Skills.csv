@@ -1,2 +1,2 @@
-ID,Skill Name,Cost (energy),PrepTime (seconds),"Target Index (0 - Self, 1 - Single Enemy, 2 - All Enemies)",Intensity (Damage / Heal),Prefect Multiplier,Perfectable?
-0,Test Skill,2,3,1,5,1.5,TRUE
+ID,Skill Name,Element Type,Cost (energy),PrepTime (seconds),Target,Intensity (Damage / Heal),Prefect Multiplier,Perfectable?
+0,Test Skill,None,2,3,SingleEnemy,5,1.5,TRUE

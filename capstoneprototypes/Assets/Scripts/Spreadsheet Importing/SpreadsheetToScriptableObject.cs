@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using static PlayerSkill;
 
 public class SpreadsheetToScriptableObject
 {
@@ -48,20 +49,21 @@ public class SpreadsheetToScriptableObject
             PlayerSkill skill = ScriptableObject.CreateInstance<PlayerSkill>();
             skill.id = int.Parse(splitData[0]);
             skill.skillName = splitData[1];
-            skill.cost = int.Parse(splitData[2]);
-            skill.prepTime = float.Parse(splitData[3]);
-            skill.target = (PlayerSkill.TargetType)int.Parse(splitData[4]);
-            skill.intensity = int.Parse(splitData[5]);
-            skill.perfectMultiplier = float.Parse(splitData[6]);
-            skill.perfectable = bool.Parse(splitData[7]);
+            skill.elementalType = Enum.Parse<ElementalTypes>(splitData[2]);
+            skill.cost = int.Parse(splitData[3]);
+            skill.prepTime = float.Parse(splitData[4]);
+            skill.target = Enum.Parse<TargetType>(splitData[5]);
+            skill.intensity = int.Parse(splitData[6]);
+            skill.perfectMultiplier = float.Parse(splitData[7]);
+            skill.perfectable = bool.Parse(splitData[8]);
 
-            skill.skillDescription = $"{skill.skillName}\n\n{typeDisplay}: {skill.intensity}\nTarget: {skill.target}\nPerfect Mult: {skill.perfectMultiplier}x";
+            skill.skillDescription = $"{skill.skillName}\nElemental Type: {skill.elementalType}\n\n{typeDisplay}: {skill.intensity}\nTarget: {skill.target}\nPerfect Mult: {skill.perfectMultiplier}x";
 
             //Set skill file name
             string fileName = $"{skill.id} - {skill.skillName}";
 
             //Creates the skill scriptable object as a new assets inside of its respective folder
-            AssetDatabase.CreateAsset(skill, $"Assets/Scripts/Spreadsheet Importing/Test/{fileName}.asset");
+            AssetDatabase.CreateAsset(skill, $"Assets/Resources/Skills/{fileName}.asset");
             dataList.allPlayerSkills.Add(skill); //Adds the current skill to the skill list in the data list
         }
         //Saves the assets
