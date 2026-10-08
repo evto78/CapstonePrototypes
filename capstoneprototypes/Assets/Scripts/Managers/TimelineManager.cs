@@ -99,6 +99,7 @@ public class TimelineManager : MonoBehaviour
         PrepareNextRound();
         foreach (Enemy enemy in activeEnemies) { enemy.SetupMarkers(); }
 
+        player.energy = player.maxEnergy;
         player.SkillSelectStart();
 
         camGlide.isUp = false;

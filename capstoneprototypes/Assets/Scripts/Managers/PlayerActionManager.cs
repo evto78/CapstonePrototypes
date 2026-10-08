@@ -94,7 +94,8 @@ public class PlayerActionManager : MonoBehaviour
 
     public void SkillSelectStart()
     {
-        energy = maxEnergy;
+        energy += 2;
+        if (energy > maxEnergy) { energy = maxEnergy; }
         timeSpent = 0f;
     }
 
