@@ -51,10 +51,12 @@ public class TimelineManager : MonoBehaviour
     public GameObject markerPrefab;
     PlayerActionManager player;
     public Transform thresholdBar;
+    AudioManager audioMan;
 
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<PlayerActionManager>();
+        audioMan = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     private void Start()

@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
     float curTimePassed; //The amount of time passed according to the timeline. Accurate to all timeline distortions.
     float curTimelineIndex; //The amount of time passed according to the current index of the timeline relative to its resolution. Accurate to all timeline distortions.
     PlayerActionManager player;
+    AudioManager audioMan;
     public List<AttackPattern> attackPatterns;
     int curRound;
     public List<int> patternByRound;
@@ -57,6 +58,7 @@ public class Enemy : MonoBehaviour
     {
         timeline = GameObject.Find("Timeline").GetComponent<TimelineManager>();
         player = GameObject.Find("Player").GetComponent<PlayerActionManager>();
+        audioMan = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
         timeline.activeEnemies.Add(this);
     }

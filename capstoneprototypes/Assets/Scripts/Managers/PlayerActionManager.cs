@@ -51,6 +51,7 @@ public class PlayerActionManager : MonoBehaviour
 
     [Header("References")]
     TimelineManager timeline;
+    AudioManager audioMan;
     GeneralAnimator gAnim;
     public SpriteRenderer sr;
     public Image fillBar;
@@ -58,6 +59,8 @@ public class PlayerActionManager : MonoBehaviour
     private void Awake()
     {
         timeline = GameObject.Find("Timeline").GetComponent<TimelineManager>();
+        audioMan = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+
         gAnim = GetComponent<GeneralAnimator>();
 
         statData.AddRange(Resources.LoadAll<StatusEffect>("StatusEffects"));
