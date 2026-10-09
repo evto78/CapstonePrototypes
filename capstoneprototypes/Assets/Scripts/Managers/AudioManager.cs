@@ -18,7 +18,10 @@ public class AudioManager : MonoBehaviour
     public float uiVol;
 
     public GameObject audioSourcePrefab;
+    public Transform unactiveGroup;
+    public Transform activeGroup;
 
+    public List<SFXSource> unactiveSources;
     public List<SFXSource> activeSources;
     List<List<SFXObject>> sfxData; //0 is effect list, 1 is music list, 2 is UI list.
     List<SFXObject> effectAudioData;
@@ -27,6 +30,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        unactiveSources = new List<SFXSource>();
         activeSources = new List<SFXSource>();
 
         sfxData = new List<List<SFXObject>>();
@@ -45,8 +49,12 @@ public class AudioManager : MonoBehaviour
         effectAudioData = SortSFXObjectData(effectAudioData);
         musicAudioData = SortSFXObjectData(musicAudioData);
         uiAudioData = SortSFXObjectData(uiAudioData);
-    }
 
+        for (int i = 0; i < 50; i++)
+        {
+            unactiveSources.Add(CreateNewSource());
+        }
+    }
     List<SFXObject> SortSFXObjectData(List<SFXObject> inputData)
     {
         List<int> comparisonList = new List<int>();
@@ -58,7 +66,6 @@ public class AudioManager : MonoBehaviour
         }
         return sortedItemData;
     }
-
     List<SFXSource> deleteList;
     private void Update()
     {
@@ -70,20 +77,26 @@ public class AudioManager : MonoBehaviour
         }
         foreach (SFXSource sfxs in deleteList)
         {
-            activeSources.Remove(sfxs);
-            Destroy(sfxs.source.gameObject);
+            StopSound(sfxs);
         }
     }
-
     //Instantiates, Sets up, Plays, and Returns the requested sound effect.
     //If any sound effects are to be ended early, it is up to the creator to end that sound effect. That is why it is returned.
     //Otherwise, all sound effects are deleted when they are done playing.
-    public SFXSource PlaySound(int clipID, SFXType sfxType, float vol)
+    public SFXSource PlaySound(int clipID, SFXType sfxType, float vol, float pitch)
     {
         SFXObject sfxObj = null;
-        SFXSource sfxSource = new SFXSource();
-        //All audio sources are created as a child of this gameobject, for organizational purposes!
-        AudioSource source = Instantiate(audioSourcePrefab, transform).GetComponent<AudioSource>();
+        SFXSource sfxSource;
+        
+        if (unactiveSources.Count == 0) 
+        {
+            unactiveSources.Add(CreateNewSource());
+        }
+
+        sfxSource = unactiveSources[0];
+        sfxSource.source.transform.parent = activeGroup;
+        unactiveSources.Remove(sfxSource);
+
         float volMod = 1f;
 
         switch (sfxType)
@@ -93,20 +106,31 @@ public class AudioManager : MonoBehaviour
             case SFXType.UI: sfxObj = sfxData[2][clipID]; volMod = uiVol; break;
         }
 
-        source.volume *= volMod; source.volume *= masterVol;
+        sfxSource.source.volume *= volMod; sfxSource.source.volume *= masterVol;
+        sfxSource.source.pitch *= pitch;
+        sfxSource.source.clip = sfxObj.clip;
 
-        source.clip = sfxObj.clip;
+        sfxSource.source.Play();
 
         sfxSource.sfxObj = sfxObj;
-        sfxSource.source = source;
         activeSources.Add(sfxSource);
         return sfxSource;
     }
-
     public void StopSound(SFXSource sfxSource)
     {
         sfxSource.source.Stop();
         activeSources.Remove(sfxSource);
-        Destroy(sfxSource.source.gameObject);
+        unactiveSources.Add(sfxSource);
+        sfxSource.source.transform.parent = unactiveGroup;
+    }
+    SFXSource CreateNewSource()
+    {
+        SFXSource newSFX = new SFXSource();
+        //All audio sources are created as a child of this gameobject, for organizational purposes!
+        AudioSource source = Instantiate(audioSourcePrefab, unactiveGroup).GetComponent<AudioSource>();
+        source.gameObject.name = "SFXSource-" + (unactiveSources.Count + activeSources.Count);
+        newSFX.source = source;
+
+        return newSFX;
     }
 }

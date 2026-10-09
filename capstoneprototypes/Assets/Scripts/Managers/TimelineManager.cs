@@ -277,6 +277,14 @@ public class TimelineManager : MonoBehaviour
     void UpdateMetronome()
     {
         metronomeTimer -= Time.deltaTime * combatSpeed;
-        if (metronomeTimer <= 0) { metronomeTimer += 1; }
+        if (metronomeTimer <= 0) 
+        { 
+            metronomeTimer += 1;
+
+            //If it is already playing, stop it. Commented out because metronome should stack when fast?
+            //if (audioMan.activeSources.Contains(metronomeSFX)) { audioMan.StopSound(metronomeSFX); }
+
+            metronomeSFX = audioMan.PlaySound(0, AudioManager.SFXType.Effect, 1f, combatSpeed);
+        }
     }
 }
