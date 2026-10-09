@@ -53,6 +53,7 @@ public class TimelineManager : MonoBehaviour
     PlayerActionManager player;
     public Transform thresholdBar;
     AudioManager audioMan;
+    public RoomSelection roomSelection;
 
     private void Awake()
     {
@@ -63,6 +64,7 @@ public class TimelineManager : MonoBehaviour
     private void Start()
     {
         combatActive = false;
+        roomSelection.gameObject.SetActive(false);
         combatPause = true;
         markerPrefab.SetActive(false);
 
@@ -187,6 +189,8 @@ public class TimelineManager : MonoBehaviour
         combatSpeed = 0;
 
         camGlide.isUp = true;
+
+        roomSelection.gameObject.SetActive(true);
     }
     void UpdateCombat()
     {

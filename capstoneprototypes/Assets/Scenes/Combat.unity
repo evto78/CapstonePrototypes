@@ -2203,6 +2203,7 @@ MonoBehaviour:
   fillBar: {fileID: 92586226}
   markerPrefab: {fileID: 664751741}
   thresholdBar: {fileID: 1190927822}
+  roomSelection: {fileID: 1261328443}
 --- !u!1 &256904388
 GameObject:
   m_ObjectHideFlags: 0
