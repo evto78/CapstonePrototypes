@@ -34,6 +34,7 @@ public class TimelineManager : MonoBehaviour
     public float combatSpeed;
     public bool combatActive; //is there currently a combat happening
     public bool combatPause; //is the real-time paused or active
+    float metronomeTimer = 1f;
 
     [Header("Visuals")]
     public Vector2 minMaxPos;
@@ -71,6 +72,7 @@ public class TimelineManager : MonoBehaviour
     {
         if (combatActive && !combatPause) { UpdateCombat(); }
         else { UpdateVisuals(); }
+        UpdateMetronome();
     }
     void UpdateVisuals()
     {
@@ -270,5 +272,11 @@ public class TimelineManager : MonoBehaviour
         int result = 0;
         result = Mathf.FloorToInt((time / combatTime) * resolution);
         return result;
+    }
+    AudioManager.SFXSource metronomeSFX;
+    void UpdateMetronome()
+    {
+        metronomeTimer -= Time.deltaTime * combatSpeed;
+        if (metronomeTimer <= 0) { metronomeTimer += 1; }
     }
 }
