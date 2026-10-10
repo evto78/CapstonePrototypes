@@ -2498,7 +2498,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 55ca9ad947b08ca428bd85b3f6d4ccaa, type: 3}
+  m_Sprite: {fileID: 1387511992, guid: 7a34d38b79fa95343961ebdab6f22758, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3825,7 +3825,7 @@ GameObject:
   m_Component:
   - component: {fileID: 486127189}
   m_Layer: 0
-  m_Name: MiniSpotlight (1)
+  m_Name: MiniSpotlight Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4466,7 +4466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 569004992}
   m_Layer: 0
-  m_Name: MiniSpotlight
+  m_Name: MiniSpotlight Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7346,8 +7346,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2877f8aff8b1f0649a228dbe49353146, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 1231374658, guid: 7a34d38b79fa95343961ebdab6f22758, type: 3}
   m_Color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8480,7 +8480,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 55ca9ad947b08ca428bd85b3f6d4ccaa, type: 3}
+  m_Sprite: {fileID: 1387511992, guid: 7a34d38b79fa95343961ebdab6f22758, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -13356,8 +13356,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2877f8aff8b1f0649a228dbe49353146, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 1586585557, guid: 7a34d38b79fa95343961ebdab6f22758, type: 3}
   m_Color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
   m_FlipX: 0
   m_FlipY: 0
